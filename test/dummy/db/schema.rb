@@ -10,15 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_20_153721) do
+ActiveRecord::Schema.define(version: 2020_12_20_161027) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "unilevel_settlement_payout_amount_templates", force: :cascade do |t|
+    t.string "name"
+    t.jsonb "provisions"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "unilevel_settlement_payout_records", force: :cascade do |t|
-    t.decimal "amount"
-    t.decimal "vat"
-    t.string "contract_id"
+    t.decimal "amount", precision: 8, scale: 2
+    t.decimal "vat", precision: 8, scale: 2
     t.bigint "level"
     t.bigint "unilevel_settlement_payout_id", null: false
     t.datetime "created_at", precision: 6, null: false
