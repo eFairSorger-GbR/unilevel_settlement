@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_20_161027) do
+ActiveRecord::Schema.define(version: 2020_12_20_161238) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,17 @@ ActiveRecord::Schema.define(version: 2020_12_20_161027) do
     t.index ["unilevel_settlement_payout_run_id"], name: "index_unilevel_settlement_payout_on_payout_runs_id"
   end
 
+  create_table "unilevel_settlement_providers", force: :cascade do |t|
+    t.string "name"
+    t.jsonb "provisions"
+    t.boolean "inactive", default: false
+    t.bigint "unilevel_settlement_payout_amount_template_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["unilevel_settlement_payout_amount_template_id"], name: "index_unilevel_settlement_provider_on_payout_amount_template_id"
+  end
+
   add_foreign_key "unilevel_settlement_payout_records", "unilevel_settlement_payouts"
   add_foreign_key "unilevel_settlement_payouts", "unilevel_settlement_payout_runs"
+  add_foreign_key "unilevel_settlement_providers", "unilevel_settlement_payout_amount_templates"
 end
