@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  payout_number: MyString
+  payout_run: one
+
+two:
+  payout_number: MyString
+  payout_run: two
