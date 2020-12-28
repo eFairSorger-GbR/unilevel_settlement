@@ -27,6 +27,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "rails", "~> 6.0.3", ">= 6.0.3.4"
   spec.add_dependency 'hamlit' # haml files
-
+  spec.add_dependency 'sass-rails', '>= 6' # use .sass instead of .css
   spec.add_development_dependency "pg"
 end
