@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_20_170710) do
+ActiveRecord::Schema.define(version: 2021_01_09_133439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,13 +24,6 @@ ActiveRecord::Schema.define(version: 2020_12_20_170710) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["unilevel_settlement_provider_id"], name: "index_unilevel_settlement_contract_on_provider_id"
-  end
-
-  create_table "unilevel_settlement_payout_amount_templates", force: :cascade do |t|
-    t.string "name"
-    t.jsonb "provisions"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "unilevel_settlement_payout_records", force: :cascade do |t|
@@ -71,9 +64,16 @@ ActiveRecord::Schema.define(version: 2020_12_20_170710) do
     t.index ["unilevel_settlement_payout_amount_template_id"], name: "index_unilevel_settlement_provider_on_payout_amount_template_id"
   end
 
+  create_table "unilevel_settlement_provisions_templates", force: :cascade do |t|
+    t.string "name"
+    t.jsonb "provisions"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   add_foreign_key "unilevel_settlement_contracts", "unilevel_settlement_providers"
   add_foreign_key "unilevel_settlement_payout_records", "unilevel_settlement_contracts"
   add_foreign_key "unilevel_settlement_payout_records", "unilevel_settlement_payouts"
   add_foreign_key "unilevel_settlement_payouts", "unilevel_settlement_payout_runs"
-  add_foreign_key "unilevel_settlement_providers", "unilevel_settlement_payout_amount_templates"
+  add_foreign_key "unilevel_settlement_providers", "unilevel_settlement_provisions_templates", column: "unilevel_settlement_payout_amount_template_id"
 end
