@@ -1,0 +1,14 @@
+%h1 Neuen Anbieter erstellen
+
+.centered-content
+  = form_with model: @provider, local: true do |f|
+    .margin-top
+      = f.label :name, 'Name'
+      = f.text_field :name
+
+    .margin-top
+      = f.check_box :inactive
+      = f.label :inactive, 'Inaktiv'
+
+    .margin-top
+      = f.submit value: 'Änderungen speichern', class: 'btn-base'

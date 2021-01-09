@@ -1,0 +1,12 @@
+.my-card{:id => "anbieter-#{provider.id}"}
+  %div
+  = form_with model: provider, local: true do |f|
+    %h3.margin-top
+      = f.text_field :name
+
+    .margin-top
+      = f.check_box :inactive
+      = f.label :inactive, 'Inaktiv'
+
+    .margin-top
+      = f.submit value: 'Änderungen speichern', class: 'btn-base'

@@ -1,3 +1,4 @@
 UnilevelSettlement::Engine.routes.draw do
-  resources :provider, only: %i[index]
+  # ----- Provider routes -----
+  resources :providers, only: %i[index new create update]
 end
