@@ -58,10 +58,10 @@ ActiveRecord::Schema.define(version: 2021_01_09_133439) do
     t.string "name"
     t.jsonb "provisions"
     t.boolean "inactive", default: false
-    t.bigint "unilevel_settlement_payout_amount_template_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["unilevel_settlement_payout_amount_template_id"], name: "index_unilevel_settlement_provider_on_payout_amount_template_id"
+    t.bigint "unilevel_settlement_provisions_template_id"
+    t.index ["unilevel_settlement_provisions_template_id"], name: "index_unilevel_settlement_provider_on_provision_template_id"
   end
 
   create_table "unilevel_settlement_provisions_templates", force: :cascade do |t|
@@ -75,5 +75,4 @@ ActiveRecord::Schema.define(version: 2021_01_09_133439) do
   add_foreign_key "unilevel_settlement_payout_records", "unilevel_settlement_contracts"
   add_foreign_key "unilevel_settlement_payout_records", "unilevel_settlement_payouts"
   add_foreign_key "unilevel_settlement_payouts", "unilevel_settlement_payout_runs"
-  add_foreign_key "unilevel_settlement_providers", "unilevel_settlement_provisions_templates", column: "unilevel_settlement_payout_amount_template_id"
 end
