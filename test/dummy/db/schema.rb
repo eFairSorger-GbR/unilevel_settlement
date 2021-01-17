@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_09_133439) do
+ActiveRecord::Schema.define(version: 2021_01_17_134734) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,8 +71,21 @@ ActiveRecord::Schema.define(version: 2021_01_09_133439) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "unilevel_settlement_unilevel_settlement_provisions", force: :cascade do |t|
+    t.decimal "provision"
+    t.integer "level"
+    t.bigint "unilevel_settlement_provider_id"
+    t.bigint "unilevel_settlement_provisions_template_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["unilevel_settlement_provider_id"], name: "index_unilevel_settlement_provisions_on_provider_id"
+    t.index ["unilevel_settlement_provisions_template_id"], name: "index_unilevel_settlement_provisions_on_provisions_template_id"
+  end
+
   add_foreign_key "unilevel_settlement_contracts", "unilevel_settlement_providers"
   add_foreign_key "unilevel_settlement_payout_records", "unilevel_settlement_contracts"
   add_foreign_key "unilevel_settlement_payout_records", "unilevel_settlement_payouts"
   add_foreign_key "unilevel_settlement_payouts", "unilevel_settlement_payout_runs"
+  add_foreign_key "unilevel_settlement_unilevel_settlement_provisions", "unilevel_settlement_providers"
+  add_foreign_key "unilevel_settlement_unilevel_settlement_provisions", "unilevel_settlement_provisions_templates"
 end
