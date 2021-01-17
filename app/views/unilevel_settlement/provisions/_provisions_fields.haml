@@ -1,0 +1,10 @@
+.nested-fields
+  .field.margin-top
+    = f.label :provision
+    = f.text_field :provision
+
+  .field.margin-top
+    = f.label :level
+    = f.number_field :level
+
+  = link_to_remove_association 'Provision entfernen', f

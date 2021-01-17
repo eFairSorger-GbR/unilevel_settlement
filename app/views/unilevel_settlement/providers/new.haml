@@ -10,5 +10,12 @@
       = f.check_box :inactive
       = f.label :inactive, 'Inaktiv'
 
+    %h2 Provisionen
+    #provisions
+      = f.fields_for :provisions do |provision|
+        = render 'unilevel_settlement/provisions/provisions_fields', f: provision
+      .links
+        = link_to_add_association 'Provision hinzufügen', f, :provision
+
     .margin-top
       = f.submit value: 'Änderungen speichern', class: 'btn-base'
