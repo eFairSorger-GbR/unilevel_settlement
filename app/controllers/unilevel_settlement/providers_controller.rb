@@ -43,7 +43,7 @@ module UnilevelSettlement
         :name,
         :provisions,
         :inactive,
-        :unilevel_settlement_payout_amount_template,
+        :unilevel_settlement_provisions_template
       )
     end
 

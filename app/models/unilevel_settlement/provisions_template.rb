@@ -1,5 +1,5 @@
 module UnilevelSettlement
-  class PayoutAmountTemplate < ApplicationRecord
+  class ProvisionsTemplate < ApplicationRecord
     has_many :providers
     has_many :provision
   end
