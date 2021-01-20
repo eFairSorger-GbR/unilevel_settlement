@@ -10,8 +10,10 @@ module UnilevelSettlement
 
     validates :level, presence: true
     validates :provision, presence: true, numericality: { greater_thatn_or_equal_to: 0 }
-    validates :provider, 'unilevel_settlement/level_uniqueness': true
-    validates :provisions_template, 'unilevel_settlement/level_uniqueness': true
+
+    #### --> Issue is here!!!!
+    # validates :provider, 'unilevel_settlement/level_uniqueness': true
+    # validates :provisions_template, 'unilevel_settlement/level_uniqueness': true
 
     validate :provider_or_template_must_exist, :only_one_reference_assigned
 
