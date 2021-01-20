@@ -6,7 +6,8 @@ module UnilevelSettlement
 
     belongs_to :provisions_template, class_name: 'UnilevelSettlement::ProvisionsTemplate',
                                      foreign_key: 'unilevel_settlement_provisions_template_id', optional: true
-    has_many :provisions, class_name: 'UnilevelSettlement::Provision'
+
+    has_many :provisions, class_name: 'UnilevelSettlement::Provision', foreign_key: 'unilevel_settlement_provider_id'
     has_many :contracts, class_name: 'UnilevelSettlement::Contract', foreign_key: 'unilevel_settlement_contract_id'
 
     accepts_nested_attributes_for :provisions, reject_if: :all_blank, allow_destroy: true
