@@ -1,12 +1,11 @@
-.my-card{:id => "anbieter-#{provider.id}"}
-  %div
-  = form_with model: provider, local: true do |f|
-    %h3.margin-top
-      = f.text_field :name
+.card.card-simple.margin-top{:id => "anbieter-#{provider.id}"}
+  %h3.margin-top{ style: "#{'color: red' if provider.inactive?}" }= "#{provider.name} (#{provider.inactive? ? 'inaktiv' : 'aktiv'})"
 
-    .margin-top
-      = f.check_box :inactive
-      = f.label :inactive, 'Inaktiv'
-
-    .margin-top
-      = f.submit value: 'Änderungen speichern', class: 'btn-base'
+  %h4 Provision
+  .flex.margin-top
+    .w50
+      - provider.provisions.order(:level).each do |provision|
+        = "#{provision.level}: #{provision.provision} €"
+        %br
+    .w50.t-right
+      = link_to 'Bearbeiten', edit_provider_path(provider), class: 'btn-base btn-sec-ghost'

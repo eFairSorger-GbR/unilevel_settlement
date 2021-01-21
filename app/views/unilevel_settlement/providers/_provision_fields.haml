@@ -1,10 +1,15 @@
 .nested-fields
+  = f.render_errors :provider
+  = f.render_errors :provision_template
+
   .field.margin-top
     = f.label :provision
     = f.text_field :provision
+    = f.render_errors :provision
 
   .field.margin-top
     = f.label :level
     = f.number_field :level
+    = f.render_errors :level
 
   = link_to_remove_association 'Provision entfernen', f

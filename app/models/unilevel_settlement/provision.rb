@@ -2,8 +2,8 @@
 
 module UnilevelSettlement
   class Provision < ApplicationRecord
-    belongs_to :provider, class_name: 'UnilevelSettlement::Provider',
-                          foreign_key: 'unilevel_settlement_provider_id', optional: true
+    belongs_to :provider, class_name: 'UnilevelSettlement::Provider', foreign_key: 'unilevel_settlement_provider_id',
+                          optional: true, inverse_of: :provisions
 
     belongs_to :provisions_template, class_name: 'UnilevelSettlement::ProvisionsTemplate',
                                      foreign_key: 'unilevel_settlment_provisions_template_id', optional: true
