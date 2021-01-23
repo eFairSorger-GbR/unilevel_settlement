@@ -1,0 +1,12 @@
+.flex
+  .w70
+    %h1 Provisions Templates Übersicht
+
+  .w30.t-right
+    -# = link_to 'Neues Template erstellen', new_provider_path, class: "btn-base btn-main d-inline-block mb-4"
+
+.centered-content.margin-top
+  - if @templates.any?
+    - @templates.each do |template|
+      = render partial: 'template_card', locals: { template: template }
+

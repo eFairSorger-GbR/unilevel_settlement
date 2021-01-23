@@ -1,0 +1,11 @@
+.card.card-simple.margin-top{:id => "templat-#{template.id}"}
+  %h3.margin-top= "#{template.name} (#{template.inactive? ? 'inaktiv' : 'aktiv'})"
+
+  %h4 Provision
+  .flex.margin-top
+    .w50
+      - template.provisions.order(:level).each do |provision|
+        = "#{provision.level}: #{provision.provision} €"
+        %br
+    .w50.t-right
+      = link_to 'Bearbeiten', edit_template_path(template), class: 'btn-base btn-sec-ghost'
