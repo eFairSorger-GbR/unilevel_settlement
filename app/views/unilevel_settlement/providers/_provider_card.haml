@@ -1,5 +1,5 @@
-.card.card-simple.margin-top{:id => "anbieter-#{provider.id}"}
-  %h3.margin-top{ style: "#{'color: red' if provider.inactive?}" }= "#{provider.name} (#{provider.inactive? ? 'inaktiv' : 'aktiv'})"
+.card.margin-top{:id => "anbieter-#{provider.id}"}
+  %h3{ style: "#{provider.inactive? ? 'color: red' : 'color: white'}" }= "#{provider.name} (#{provider.inactive? ? 'inaktiv' : 'aktiv'})"
 
   %h4 Provision
   .flex.margin-top

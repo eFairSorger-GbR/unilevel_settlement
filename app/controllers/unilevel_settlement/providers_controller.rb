@@ -14,7 +14,6 @@ module UnilevelSettlement
 
     def create
       @provider = Provider.new(provider_params)
-      binding.pry
       if @provider.save
         redirect_to providers_path
       else
