@@ -6,7 +6,7 @@ module UnilevelSettlement
                           optional: true, inverse_of: :provisions
 
     belongs_to :provisions_template, class_name: 'UnilevelSettlement::ProvisionsTemplate',
-                                     foreign_key: 'unilevel_settlment_provisions_template_id', optional: true,
+                                     foreign_key: 'unilevel_settlement_provisions_template_id', optional: true,
                                      inverse_of: :provisions
 
     validates :level, presence: true
@@ -28,7 +28,7 @@ module UnilevelSettlement
     def only_one_reference_assigned
       return unless provider && provisions_template
 
-      errors.add(:provider, 'Nur Anbieter oder Provisions Template darf ausgefüllt sein')
+      errors.add(:provider, 'Nur entweder Anbieter oder Provisions Template darf ausgefüllt sein')
     end
   end
 end

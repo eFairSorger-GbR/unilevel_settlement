@@ -1,0 +1,16 @@
+= form_with model: @template, local: true do |f|
+  .margin-top
+    = f.label :name, 'Name'
+    = f.text_field :name
+    = f.render_errors :name
+
+  %h2 Provisionen
+  #provisions
+    = f.render_errors :provisions
+    = f.fields_for :provisions do |provision|
+      = render 'provision_fields', f: provision
+    .links
+      = link_to_add_association 'Provision hinzufügen', f, :provisions
+
+  .margin-top
+    = f.submit 'Änderungen speichern', class: 'btn-base'
