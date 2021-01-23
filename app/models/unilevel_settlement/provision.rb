@@ -6,7 +6,8 @@ module UnilevelSettlement
                           optional: true, inverse_of: :provisions
 
     belongs_to :provisions_template, class_name: 'UnilevelSettlement::ProvisionsTemplate',
-                                     foreign_key: 'unilevel_settlment_provisions_template_id', optional: true
+                                     foreign_key: 'unilevel_settlment_provisions_template_id', optional: true,
+                                     inverse_of: :provisions
 
     validates :level, presence: true
     validates :provision, presence: true, numericality: { greater_thatn_or_equal_to: 0 }

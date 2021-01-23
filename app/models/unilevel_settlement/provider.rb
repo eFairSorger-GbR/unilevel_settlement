@@ -15,6 +15,15 @@ module UnilevelSettlement
     accepts_nested_attributes_for :provisions, reject_if: :all_blank, allow_destroy: true
 
     validates :name, presence: true
+    validate :provider_or_template_must_exist, :only_one_reference_assigned
     # delegate_if_not_set :provisions, to: :provisions_template
+
+    private
+
+    def provisions_or_template_must_exist
+      return if provisions.any? || provisions_template
+
+      errors.add(:provisions_template, 'Provisionen oder Provisions Template muss ausgefüllt sein')
+    end
   end
 end
