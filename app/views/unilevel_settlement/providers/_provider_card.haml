@@ -1,11 +1,11 @@
 .card.margin-top{:id => "anbieter-#{provider.id}"}
   %h3{ style: "#{provider.inactive? ? 'color: red' : 'color: white'}" }= "#{provider.name} (#{provider.inactive? ? 'inaktiv' : 'aktiv'})"
 
-  %h4 Provision
+  %h4 Provisionen
   .flex.margin-top
     .w50
       - provider.provisions.order(:level).each do |provision|
-        = "#{provision.level}: #{provision.provision} €"
+        = "Level #{provision.level}: #{provision.provision} €"
         %br
     .w50.t-right
       = link_to 'Bearbeiten', edit_provider_path(provider), class: 'btn-base btn-sec-ghost'

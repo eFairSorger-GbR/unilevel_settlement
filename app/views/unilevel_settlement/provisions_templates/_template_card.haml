@@ -1,11 +1,11 @@
-.card.card-simple.margin-top{:id => "templat-#{template.id}"}
-  %h3.margin-top{ style: 'color: white' }= "#{template.name}"
+.card.card-simple.margin-top{:id => "template-#{template.id}"}
+  %h3{ style: 'color: white' }= "#{template.name}"
 
-  %h4 Provision
-  .flex.margin-top
+  %h4 Provisionen
+  .flex
     .w50
       - template.provisions.order(:level).each do |provision|
-        = "#{provision.level}: #{provision.provision} €"
+        = "Level #{provision.level}: #{provision.provision} €"
         %br
     .w50.t-right
-      = link_to 'Bearbeiten', edit_template_path(template), class: 'btn-base btn-sec-ghost'
+      = link_to 'Bearbeiten', edit_provisions_template_path(template), class: 'btn-base btn-sec-ghost'

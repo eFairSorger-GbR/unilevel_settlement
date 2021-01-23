@@ -2,6 +2,8 @@ require_dependency "unilevel_settlement/application_controller"
 
 module UnilevelSettlement
   class ProvisionsTemplatesController < ApplicationController
+    before_action :find_template, only: %i[edit update]
+
     def index
       @templates = ProvisionsTemplate.all.sort_by(&:name.downcase)
     end
@@ -16,6 +18,16 @@ module UnilevelSettlement
         redirect_to templates_path
       else
         render :new
+      end
+    end
+
+    def edit; end
+
+    def update
+      if @template.update(template_params)
+        redirect_to provisions_templates_path(anchor: "template-#{@template.id}")
+      else
+        render :edit
       end
     end
 
