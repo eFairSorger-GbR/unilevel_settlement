@@ -9,7 +9,7 @@ module UnilevelSettlement
 
     has_many :provisions, -> { order(level: :asc) }, class_name: 'UnilevelSettlement::Provision',
                                                      foreign_key: 'unilevel_settlement_provider_id',
-                                                     inverse_of: :provider
+                                                     inverse_of: :provider, dependent: :destroy
 
     has_many :contracts, class_name: 'UnilevelSettlement::Contract', foreign_key: 'unilevel_settlement_contract_id'
 
@@ -17,18 +17,19 @@ module UnilevelSettlement
 
     validates :name, presence: true
     validate :provisions_or_template_must_exist, :only_one_reference_assigned
-    # delegate_if_not_set :provisions, to: :provisions_template
 
     private
 
     def provisions_or_template_must_exist
-      return if provisions.any? || provisions_template
+      return if (provisions.any? && !provisions.all?(&:marked_for_destruction?)) ||
+                provisions_template
 
       errors.add(:provisions_template, 'Provisionen oder Provisions Template muss ausgefüllt sein')
     end
 
     def only_one_reference_assigned
-      return unless provisions.any? && provisions_template
+      return unless (provisions.any? && !provisions.all?(&:marked_for_destruction?)) &&
+                    (provisions_template && !provisions_template.marked_for_destruction?)
 
       errors.add(:provisions_template, 'Nur entweder Provisionen oder Provisions Template darf ausgefüllt sein')
     end

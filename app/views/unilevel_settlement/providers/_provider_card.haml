@@ -1,10 +1,18 @@
 .card.margin-top{:id => "anbieter-#{provider.id}"}
-  %h3{ style: "#{provider.inactive? ? 'color: red' : 'color: white'}" }= "#{provider.name} (#{provider.inactive? ? 'inaktiv' : 'aktiv'})"
+  %h3{ style: "#{provider.inactive? ? 'color: red' : 'color: white'}" }= "#{provider.name}#{' (inaktiv)' if provider.inactive?}"
 
   %h4 Provisionen
   .flex.margin-top
     .w50
-      - provider.provisions.order(:level).each do |provision|
+      - if provider.provisions.any?
+        - provisions = provider.provisions
+      - else
+        = "über Template '#{provider.provisions_template.name}'"
+        %br
+        %br
+        - provisions = provider.provisions_template.provisions
+
+      - provisions.order(:level).each do |provision|
         = "Level #{provision.level}: #{provision.provision} €"
         %br
     .w50.t-right

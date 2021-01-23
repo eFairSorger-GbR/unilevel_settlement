@@ -10,6 +10,7 @@ module UnilevelSettlement
 
     def new
       @provider = Provider.new
+      @templates = ProvisionsTemplate.all.order(:name)
     end
 
     def create
@@ -17,16 +18,20 @@ module UnilevelSettlement
       if @provider.save
         redirect_to providers_path
       else
+        @templates = ProvisionsTemplate.all.order(:name)
         render :new
       end
     end
 
-    def edit; end
+    def edit
+     @templates = ProvisionsTemplate.all.order(:name)
+    end
 
     def update
       if @provider.update(provider_params)
         redirect_to providers_path(anchor: "anbieter-#{@provider.id}")
       else
+        @templates = ProvisionsTemplate.all.order(:name)
         render :edit
       end
     end
@@ -38,7 +43,7 @@ module UnilevelSettlement
         :name,
         :provisions,
         :inactive,
-        :provisions_template,
+        :unilevel_settlement_provisions_template_id,
         provisions_attributes: %i[id provision level _destroy]
       )
     end

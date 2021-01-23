@@ -9,12 +9,23 @@
     = f.label :inactive, 'Inaktiv'
     = f.render_errors :inactive
 
-  %h2 Provisionen
-  #provisions
-    = f.fields_for :provisions do |provision|
-      = render 'provision_fields', f: provision
-    .links
-      = link_to_add_association 'Provision hinzufügen', f, :provisions
+  %h2.margin-top Provisionen
+  Füge ein Template oder einzelne Provisionen hinzu
+  = f.render_errors :provisions_template
+
+  .margin-top
+    = f.label :unilevel_settlement_provisions_template_id, 'Provisions Template'
+    = f.select :unilevel_settlement_provisions_template_id, @templates.map { |v| [v.name, v.id] }, include_blank: true
+    = f.render_errors :unilevel_settlement_provisions_template_id
+
+
+  .margin-top
+    = f.label :provisions, 'Einzelne Provisionen'
+    #provisions
+      = f.fields_for :provisions do |provision|
+        = render 'provision_fields', f: provision
+      .links
+        = link_to_add_association 'Provision hinzufügen', f, :provisions
 
   .margin-top
     = f.submit 'Änderungen speichern', class: 'btn-base'
