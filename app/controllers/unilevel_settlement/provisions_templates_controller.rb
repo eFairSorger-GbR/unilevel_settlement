@@ -2,7 +2,7 @@ require_dependency "unilevel_settlement/application_controller"
 
 module UnilevelSettlement
   class ProvisionsTemplatesController < ApplicationController
-    before_action :find_template, only: %i[edit update]
+    before_action :find_template, only: %i[edit update destroy]
 
     def index
       @templates = ProvisionsTemplate.all.sort_by(&:name.downcase)
@@ -15,7 +15,7 @@ module UnilevelSettlement
     def create
       @template = ProvisionsTemplate.new(template_params)
       if @template.save
-        redirect_to templates_path
+        redirect_to provisions_templates_path
       else
         render :new
       end
@@ -27,6 +27,16 @@ module UnilevelSettlement
       if @template.update(template_params)
         redirect_to provisions_templates_path(anchor: "template-#{@template.id}")
       else
+        render :edit
+      end
+    end
+
+    def destroy
+      if @template.destroy
+        flash[:notice] = 'Das Template wurde erfolgreich gelöscht.'
+        redirect_to provisions_templates_path
+      else
+        flash[:error] = 'Kann nicht gelöscht werden solange das Template Anbietern zugeordnet ist.'
         render :edit
       end
     end

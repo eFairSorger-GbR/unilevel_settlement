@@ -1,4 +1,7 @@
-%h1="#{@template.name} bearbeiten"
+.flex
+  %h1.w70="#{@template.name} bearbeiten"
+  .w30.t-right
+    = link_to 'löschen', provisions_template_path(@template), method: :delete, class: 'btn-base btn-sec-ghost d-inline-block mb-4', data: { confirm: 'Sicher, dass das Template unwiderruflich gelöscht werden soll?' }
 
 .centered-content
   = render 'form'
