@@ -1,0 +1,19 @@
+= form_with model: @payout_run, url: payouts_payout_runs_path, local: true do |f|
+  .margin-top
+    = f.label :payout_date, 'Abrechnungsdatum'
+    = f.date_field :payout_date, value: @payout_run.payout_date || Date.today
+    = f.render_errors :payout_date
+
+  .margin-top.flex
+    .w50
+      = f.label :performance_start_date, 'Leistungszeitraum von'
+      = f.date_field :performance_start_date
+      = f.render_errors :performance_start_date
+
+    .w50
+      = f.label :performance_end_date, 'Leistungszeitraum bis'
+      = f.date_field :performance_end_date
+      = f.render_errors :performance_end_date
+
+  .margin-top
+    = f.submit 'Abrechnung starten', class: 'btn-base'
