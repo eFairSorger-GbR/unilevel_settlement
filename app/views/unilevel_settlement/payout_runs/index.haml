@@ -1,0 +1,12 @@
+.flex
+  .w70
+    %h1 Abrechnungs Übersicht
+
+  .w30.t-right
+    -# = link_to 'Neue Abrechnung erstellen', new_payout_run_path, class: "btn-base btn-main d-inline-block mb-4"
+
+.centered-content.margin-top
+  - if @payout_runs.any?
+    - @payout_runs.each do |payout_run|
+      = render partial: 'payout_run_card', locals: { payout_run: payout_run }
+
