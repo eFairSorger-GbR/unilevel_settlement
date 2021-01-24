@@ -2,6 +2,7 @@
   .margin-top
     = f.label :payout_date, 'Abrechnungsdatum'
     = f.date_field :payout_date, value: @payout_run.payout_date || Date.today
+    Dieses Datum steht auf jeder Gutschrift PDF für diesen Abrechnungslauf als Datum.
     = f.render_errors :payout_date
 
   .margin-top.flex
@@ -14,6 +15,22 @@
       = f.label :performance_end_date, 'Leistungszeitraum bis'
       = f.date_field :performance_end_date
       = f.render_errors :performance_end_date
+
+  -# id used in JS
+  #file-upload-fields.margin-top
+    = f.label :payout_records_source_excel, class: 'hover-hand' do
+      = f.file_field :payout_records_source_excel, direct_upload: true
+      %br
+      = icon('fas', 'folder-open')
+      Auslesbare Excel hochladen...
+    %br
+    -# id used in JS
+    #file-upload-filename
+    = f.render_errors :payout_records_source_excel
+    %br
+    %br
+    Es kann nur eine Excel Datei hochgeladen werden. Daher bitte alle Abrechnungen (inkl. DSL, Mobilfunk usw.) in einer Datei, in einem Blatt zusammenfügen, sodass die Überschriften mit den Überschriften der NewSales Abrechnung übereinstimmen. Eventuell leere Zellen sind egal.
+
 
   .margin-top
     = f.submit 'Abrechnung starten', class: 'btn-base'

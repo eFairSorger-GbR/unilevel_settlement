@@ -26,7 +26,8 @@ module UnilevelSettlement
         params.require(:payout_run).permit(
           :payout_date,
           :performance_start_date,
-          :performance_end_date
+          :performance_end_date,
+          :payout_records_source_excel
         )
       end
     end
