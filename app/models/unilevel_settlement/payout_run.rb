@@ -1,6 +1,6 @@
 module UnilevelSettlement
   class PayoutRun < ApplicationRecord
-    has_many :payouts
+    has_many :payout_invoices
     has_many :payout_records, through: :payouts
     has_one_attached :payout_records_source_excel
 

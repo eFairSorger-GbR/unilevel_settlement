@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_17_154736) do
+ActiveRecord::Schema.define(version: 2021_01_27_104119) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,14 @@ ActiveRecord::Schema.define(version: 2021_01_17_154736) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["unilevel_settlement_provider_id"], name: "index_unilevel_settlement_contract_on_provider_id"
+  end
+
+  create_table "unilevel_settlement_payout_invoices", force: :cascade do |t|
+    t.string "payout_number"
+    t.bigint "unilevel_settlement_payout_run_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["unilevel_settlement_payout_run_id"], name: "index_unilevel_settlement_payout_on_payout_runs_id"
   end
 
   create_table "unilevel_settlement_payout_records", force: :cascade do |t|
@@ -44,14 +52,7 @@ ActiveRecord::Schema.define(version: 2021_01_17_154736) do
     t.date "performance_end_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "unilevel_settlement_payouts", force: :cascade do |t|
-    t.string "payout_number"
-    t.bigint "unilevel_settlement_payout_run_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["unilevel_settlement_payout_run_id"], name: "index_unilevel_settlement_payout_on_payout_runs_id"
+    t.string "state", default: "payout_run_started"
   end
 
   create_table "unilevel_settlement_providers", force: :cascade do |t|
@@ -81,9 +82,9 @@ ActiveRecord::Schema.define(version: 2021_01_17_154736) do
   end
 
   add_foreign_key "unilevel_settlement_contracts", "unilevel_settlement_providers"
+  add_foreign_key "unilevel_settlement_payout_invoices", "unilevel_settlement_payout_runs"
   add_foreign_key "unilevel_settlement_payout_records", "unilevel_settlement_contracts"
-  add_foreign_key "unilevel_settlement_payout_records", "unilevel_settlement_payouts"
-  add_foreign_key "unilevel_settlement_payouts", "unilevel_settlement_payout_runs"
+  add_foreign_key "unilevel_settlement_payout_records", "unilevel_settlement_payout_invoices", column: "unilevel_settlement_payout_id"
   add_foreign_key "unilevel_settlement_provisions", "unilevel_settlement_providers"
   add_foreign_key "unilevel_settlement_provisions", "unilevel_settlement_provisions_templates"
 end
