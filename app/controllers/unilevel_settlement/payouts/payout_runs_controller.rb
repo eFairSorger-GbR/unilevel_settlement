@@ -1,4 +1,4 @@
-require_dependency "unilevel_settlement/application_controller"
+require_dependency 'unilevel_settlement/payouts/application_controller'
 
 module UnilevelSettlement
   module Payouts
@@ -7,7 +7,7 @@ module UnilevelSettlement
         @payout_runs = PayoutRun.all
       end
 
-      def new
+      def start
         @payout_run = PayoutRun.new
       end
 
