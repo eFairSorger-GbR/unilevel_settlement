@@ -1,5 +1,7 @@
 module UnilevelSettlement
   class PayoutRun < ApplicationRecord
+    STATES = %w[payout_run_started awaiting_providers].freeze
+
     has_many :payout_invoices
     has_many :payout_records, through: :payouts
     has_one_attached :payout_records_source_excel
@@ -7,6 +9,7 @@ module UnilevelSettlement
     validates :payout_date, presence: true
     validates :performance_start_date, presence: true
     validates :performance_end_date, presence: true
+    validates :state, inclusion: { in: STATES, message: 'Status ist nicht korrekt' }
 
     validate :end_date_after_start_date, :payout_date_after_start_date, :excel_attached,
              :payout_records_source_excel_is_excel
