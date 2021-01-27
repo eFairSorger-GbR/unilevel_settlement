@@ -3,8 +3,6 @@ require_dependency 'unilevel_settlement/payouts/application_controller'
 module UnilevelSettlement
   module Payouts
     class PayoutRunsController < ApplicationController
-      before_action :set_payout_run, only: :flow
-
       def index
         @payout_runs = PayoutRun.all
       end
@@ -36,10 +34,6 @@ module UnilevelSettlement
           :performance_end_date,
           :payout_records_source_excel
         )
-      end
-
-      def set_payout_run
-        @payout_run = PayoutRun.find(params[:id])
       end
 
       def set_next_path

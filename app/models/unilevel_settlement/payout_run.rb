@@ -16,6 +16,10 @@ module UnilevelSettlement
 
     default_scope { order(payout_date: :desc) }
 
+    def payout_records_source_excel_file_path
+      ActiveStorage::Blob.service.send(:path_for, payout_records_source_excel.key)
+    end
+
     private
 
     def end_date_after_start_date
