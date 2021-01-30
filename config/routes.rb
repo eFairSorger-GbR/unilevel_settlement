@@ -8,6 +8,7 @@ UnilevelSettlement::Engine.routes.draw do
 
       member do
         get 'flow'
+        delete 'cancel'
         resources :providers, only: %i[index create update]
       end
     end

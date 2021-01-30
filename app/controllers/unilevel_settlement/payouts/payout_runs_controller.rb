@@ -25,6 +25,14 @@ module UnilevelSettlement
         redirect_to set_next_path
       end
 
+      def cancel
+        @payout_run = PayoutRun.find(params[:id])
+        destroy_connected_data
+        @payout_run.destroy
+        flash[:notice] = 'Die Abrechnung und alle dazugehörigen Daten wurden gelöscht'
+        redirect_to payouts_payout_runs_path
+      end
+
       private
 
       def payout_run_params
@@ -42,6 +50,18 @@ module UnilevelSettlement
         else
           start_payouts_payout_runs_path
         end
+      end
+
+      def destroy_connected_data
+        destroy_new_providers
+      end
+
+      def destroy_new_providers
+        providers = PayoutRunExcelReader.new(@payout_run)
+                                        .read_providers.map { |name| Provider.find_by_name(name) }
+                                        .compact
+        providers = providers.select { |provider| provider.created_at > @payout_run.created_at }
+        providers.each(&:destroy)
       end
     end
   end

@@ -1,5 +1,5 @@
 .card.margin-top{ style: 'cursor: auto'}
-  %h3{ style: "#{provider.inactive? ? 'color: red' : 'color: white'}" }
+  %h3{ style: "#{(provider.inactive? || provider.new_record?) ? 'color: red' : 'color: white'}" }
     = 'Neu: ' if provider.new_record?
     = "#{provider.name}#{' (inaktiv)' if provider.inactive?}"
 
