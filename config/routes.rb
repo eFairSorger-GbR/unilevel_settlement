@@ -9,7 +9,9 @@ UnilevelSettlement::Engine.routes.draw do
       member do
         get 'flow'
         delete 'cancel'
-        resources :providers, only: %i[index create update]
+        resources :providers, only: %i[index create update] do
+          get 'check_provider_validity', on: :collection
+        end
       end
     end
   end

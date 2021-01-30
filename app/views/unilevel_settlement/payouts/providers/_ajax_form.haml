@@ -19,7 +19,7 @@
           = link_to_add_association 'Provision hinzufügen', f, :provisions, style: 'color: white !important'
 
     .margin-top
-      = f.submit 'Änderungen speichern', class: 'btn-base'
+      = f.submit 'Änderungen speichern', class: 'btn-base btn-sec'
 
 - else
   = form_with model: provider, url: payouts_provider_path(provider), remote: true do |f|

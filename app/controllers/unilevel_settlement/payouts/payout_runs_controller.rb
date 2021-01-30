@@ -26,7 +26,6 @@ module UnilevelSettlement
       end
 
       def cancel
-        @payout_run = PayoutRun.find(params[:id])
         destroy_connected_data
         @payout_run.destroy
         flash[:notice] = 'Die Abrechnung und alle dazugehörigen Daten wurden gelöscht'

@@ -6,8 +6,7 @@ module UnilevelSettlement
       before_action :set_templates
 
       def index
-        @providers = PayoutRunExcelReader.new(@payout_run).read_providers
-        @providers = @providers.map { |name| Provider.find_or_initialize_by(name: name) }
+        @providers = instantiate_providers
       end
 
       def create
@@ -30,6 +29,17 @@ module UnilevelSettlement
         end
       end
 
+      def check_provider_validity
+        @providers = instantiate_providers
+
+        if @providers.all?(&:valid?) && @payout_run.update(state: 'whateverisnext')
+          redirect_to flow_payouts_payout_run_path
+        else
+          flash[:error] = 'Bitte füge für alle neuen Anbieter Provisionen hinzu und speichere sie ab.'
+          render :index
+        end
+      end
+
       private
 
       def provider_params
@@ -43,6 +53,11 @@ module UnilevelSettlement
 
       def set_templates
         @templates = ProvisionsTemplate.all.order(:name)
+      end
+
+      def instantiate_providers
+        providers = PayoutRunExcelReader.new(@payout_run).read_providers
+        providers.map { |name| Provider.find_or_initialize_by(name: name) }
       end
     end
   end
