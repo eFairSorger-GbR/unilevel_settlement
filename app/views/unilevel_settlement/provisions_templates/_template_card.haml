@@ -1,4 +1,4 @@
-.card.card-simple.margin-top{:id => "template-#{template.id}"}
+.card.card-simple.margin-top{:id => "template-#{template.id}", style: 'cursor: auto'}
   %h3{ style: 'color: white' }= "#{template.name}"
 
   %h4 Provisionen
@@ -8,4 +8,4 @@
         = "Level #{provision.level}: #{provision.provision} €"
         %br
     .w50.t-right
-      = link_to 'Bearbeiten', edit_provisions_template_path(template), class: 'btn-base btn-sec-ghost'
+      = link_to 'Bearbeiten', edit_provisions_template_path(template), class: 'btn-base btn-sec-ghost', style: 'pointer-events: all'

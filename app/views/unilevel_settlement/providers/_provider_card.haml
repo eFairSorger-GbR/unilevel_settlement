@@ -1,4 +1,4 @@
-.card.margin-top{:id => "anbieter-#{provider.id}"}
+.card.margin-top{id: "anbieter-#{provider.id}", style: 'cursor: auto'}
   %h3{ style: "#{provider.inactive? ? 'color: red' : 'color: white'}" }= "#{provider.name}#{' (inaktiv)' if provider.inactive?}"
 
   %h4 Provisionen
@@ -16,4 +16,4 @@
         = "Level #{provision.level}: #{provision.provision} €"
         %br
     .w50.t-right
-      = link_to 'Bearbeiten', edit_provider_path(provider), class: 'btn-base btn-sec-ghost'
+      = link_to 'Bearbeiten', edit_provider_path(provider), class: 'btn-base btn-sec-ghost', style: 'pointer-events: all'

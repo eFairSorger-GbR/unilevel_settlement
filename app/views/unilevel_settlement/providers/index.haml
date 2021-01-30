@@ -7,7 +7,7 @@
 
 #providers-list.centered-content
   .t-center
-    = button_tag 'Inaktive Anbieter', id: "show-inactive-providers", class: "btn-base btn-ghost"
+    = button_tag 'Inaktive Anbieter', id: "show-inactive-providers", class: "btn-base btn-ghost", style: 'cursor: pointer'
 
   #active-providers.margin-top
     - if @providers&.any? { |p| !p.inactive? }
