@@ -4,4 +4,4 @@
     = link_to 'löschen', provisions_template_path(@template), method: :delete, class: 'btn-base btn-sec-ghost d-inline-block mb-4', data: { confirm: 'Sicher, dass das Template unwiderruflich gelöscht werden soll?' }
 
 .centered-content
-  = render 'form'
+  = render 'form', template: @template
