@@ -1,0 +1,8 @@
+.card.margin-top{ style: 'cursor: auto'}
+  %h3{ style: "#{provider.inactive? ? 'color: red' : 'color: white'}" }
+    = 'Neu: ' if provider.new_record?
+    = "#{provider.name}#{' (inaktiv)' if provider.inactive?}"
+
+  %h4 Provisionen
+  %div{ id: "provider-#{provider.name}",  style: 'pointer-events: auto !important' }
+    = render 'ajax_form', provider: provider

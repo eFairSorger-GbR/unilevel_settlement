@@ -1,0 +1,45 @@
+- if provider.new_record?
+  = form_with model: provider, url: payouts_providers_path, remote: true do |f|
+    Füge ein Template oder einzelne Provisionen hinzu
+    = f.render_errors :provisions_template
+    = f.hidden_field :name, value: provider.name
+    = f.hidden_field :inactive, value: provider.inactive || false
+
+    .margin-top
+      = f.label :unilevel_settlement_provisions_template_id, 'Provisions Template'
+      = f.select :unilevel_settlement_provisions_template_id, @templates.map { |v| [v.name, v.id] }, include_blank: true
+      = f.render_errors :unilevel_settlement_provisions_template_id
+
+    .margin-top
+      = f.label :provisions, 'Einzelne Provisionen'
+      #provisions
+        = f.fields_for :provisions do |provision|
+          = render 'provision_fields', f: provision
+        .links
+          = link_to_add_association 'Provision hinzufügen', f, :provisions, style: 'color: white !important'
+
+    .margin-top
+      = f.submit 'Änderungen speichern', class: 'btn-base'
+
+- else
+  = form_with model: provider, url: payouts_provider_path(provider), remote: true do |f|
+    Füge ein Template oder einzelne Provisionen hinzu
+    = f.render_errors :provisions_template
+    = f.hidden_field :name, value: provider.name
+    = f.hidden_field :inactive, value: provider.inactive || false
+
+    .margin-top
+      = f.label :unilevel_settlement_provisions_template_id, 'Provisions Template'
+      = f.select :unilevel_settlement_provisions_template_id, @templates.map { |v| [v.name, v.id] }, include_blank: true
+      = f.render_errors :unilevel_settlement_provisions_template_id
+
+    .margin-top
+      = f.label :provisions, 'Einzelne Provisionen'
+      #provisions
+        = f.fields_for :provisions do |provision|
+          = render 'provision_fields', f: provision
+        .links
+          = link_to_add_association 'Provision hinzufügen', f, :provisions, style: 'color: white !important'
+
+    .margin-top
+      = f.submit 'Änderungen speichern', class: 'btn-base'

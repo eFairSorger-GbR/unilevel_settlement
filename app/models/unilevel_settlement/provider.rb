@@ -15,7 +15,7 @@ module UnilevelSettlement
 
     accepts_nested_attributes_for :provisions, reject_if: :all_blank, allow_destroy: true
 
-    validates :name, presence: true
+    validates :name, presence: true, uniqueness: true
     validate :provisions_or_template_must_exist, :only_one_reference_assigned
 
     private

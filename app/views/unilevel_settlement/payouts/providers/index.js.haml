@@ -1,0 +1,7 @@
+- name = @provider.name
+var providerFormDivId = "provider-#{name}"
+var providerFormDiv = document.getElementById(providerFormDivId)
+- content = j render 'ajax_form', provider: @provider
+
+providerFormDiv.innerHTML = "#{content}"
+

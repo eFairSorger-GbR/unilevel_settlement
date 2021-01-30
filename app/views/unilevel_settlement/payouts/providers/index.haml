@@ -1,5 +1,6 @@
 %h1 Neue Abrechnung erstellen
-%h2 Provider
+%h2 Ausgelesne Anbieter bearbeiten
 
-- @providers.each do |p|
-  = p.name
+.centered-content
+  - @providers.each do |provider|
+    = render 'provider_card', provider: provider

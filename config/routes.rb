@@ -8,9 +8,8 @@ UnilevelSettlement::Engine.routes.draw do
 
       member do
         get 'flow'
-        resources :providers, only: :index
+        resources :providers, only: %i[index create update]
       end
     end
-
   end
 end

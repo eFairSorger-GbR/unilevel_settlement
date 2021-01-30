@@ -23,7 +23,7 @@ module UnilevelSettlement
     def parse_excel
       workbook = Roo::Spreadsheet.open(@payout_run.payout_records_source_excel_file_path, extension: :xlsx)
       worksheet = workbook.sheet(0)
-      parsed_excel = worksheet.parse(headers: true)
+      parsed_excel = worksheet.parse(headers: true)[1..-1]
       parsed_excel.reject { |row| row['Unter VP-Nr.'].nil? }
     end
   end
