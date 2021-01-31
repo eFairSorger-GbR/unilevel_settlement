@@ -12,6 +12,9 @@ UnilevelSettlement::Engine.routes.draw do
         resources :providers, only: %i[index create update] do
           get 'check_provider_validity', on: :collection
         end
+        resources :payout_invoices, only: %i[] do
+          get 'create_all', on: :collection
+        end
       end
     end
   end

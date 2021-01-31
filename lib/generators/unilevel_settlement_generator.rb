@@ -11,6 +11,9 @@ class UnilevelSettlementGenerator < Rails::Generators::Base
 
       # Set the class from your app that will receive the settlement (e.g. User, Consultant, Agent)
       UnilevelSettlement.user_class = 'User'
+
+      # Set the offical consultant number of the user (might not be the id)
+      UnilevelSettlement.consultant_number = 'consultant_number'
     EOS
   end
 end

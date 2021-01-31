@@ -16,6 +16,15 @@ module UnilevelSettlement
       providers.keys
     end
 
+    def read_users
+      users = Hash.new(0)
+      @parsed_excel.map do |row|
+        user_name = row['Unter VP-Nr.']
+        users[user_name] += 1
+      end
+      users.keys
+    end
+
     private
 
     # creating a workable object.

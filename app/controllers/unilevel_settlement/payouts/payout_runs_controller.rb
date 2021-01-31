@@ -46,6 +46,7 @@ module UnilevelSettlement
       def set_next_path
         case @payout_run.state
         when 'awaiting_providers' then payouts_providers_path(@payout_run)
+        when 'awaiting_payout_records' then create_all_payouts_payout_invoices_path
         else
           start_payouts_payout_runs_path
         end
