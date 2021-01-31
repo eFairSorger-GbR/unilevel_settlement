@@ -8,12 +8,12 @@ module UnilevelSettlement
     end
 
     def read_providers
-      providers = []
+      providers = Hash.new(0)
       @parsed_excel.map do |row|
         provider_name = row['Produkt'].split(' _ ')[0]
-        providers << provider_name unless providers.include?(provider_name)
+        providers[provider_name] += 1
       end
-      providers
+      providers.keys
     end
 
     private
