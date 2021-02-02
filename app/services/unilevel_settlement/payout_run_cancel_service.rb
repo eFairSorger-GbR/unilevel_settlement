@@ -12,7 +12,15 @@ module UnilevelSettlement
     private
 
     def destroy_connected_data
+      destroy_new_contracts
       destroy_new_providers
+    end
+
+    def destroy_new_contracts
+      contracts = PayoutRunExcelReader.new(@payout_run)
+                                      .read_contracts.map { |data| Contract.find_by_contract_number(data[:contract_number]) }
+                                      .compact
+      contracts.each(&:destroy)
     end
 
     def destroy_new_providers

@@ -25,6 +25,7 @@ module UnilevelSettlement
     def create_contracts
       contracts_data = @excel_reader.read_contracts
       contracts = contracts_data.map { |contract_data| create_contract(contract_data) }
+      contracts.all?(&:valid?) : contracts : cancel_contract_creation(contracts)
     end
 
     def create_contract(data)
@@ -42,6 +43,10 @@ module UnilevelSettlement
     def find_user_by_consultant_number(consultant_number)
       User.send("find_by_#{UnilevelSettlement.consultant_number}", consultant_number)
     end
+
+    def cancel_contract_creation
+      @payout_run.cancel
+      raise 'Einige Verträge gibt es bereits'
     end
   end
 end
