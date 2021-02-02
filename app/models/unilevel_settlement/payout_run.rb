@@ -20,6 +20,10 @@ module UnilevelSettlement
       ActiveStorage::Blob.service.send(:path_for, payout_records_source_excel.key)
     end
 
+    def cancel
+      PayoutRunCancelService.new(self).cancel
+    end
+
     private
 
     def end_date_after_start_date
