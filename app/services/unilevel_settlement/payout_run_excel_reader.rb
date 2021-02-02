@@ -29,7 +29,7 @@ module UnilevelSettlement
       @parsed_excel.map do |row|
         {
           provider: provider_product_row(row)[0],
-          user_consultant_number: row['VP-Nr.'],
+          consultant_number: row['VP-Nr.'],
           contract_number: row['Auftragsnr.'],
           customer: row['Kunde'],
           product: provider_product_row(row)[1],
