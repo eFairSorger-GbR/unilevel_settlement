@@ -8,7 +8,7 @@ module UnilevelSettlement
         generator = PayoutInvoicesGenerator.new(@payout_run, excel_reader)
 
         if generator.all_users_known?
-          ''
+          generator.create_all_invoices
         else
           @payout_run.cancel
           flash[:error] = 'Nicht alle Berater aus der Excel existieren in der Datenbank. Die Abrechnung wurde abgebrochen und alle dazugehörigen Daten wurden gelöscht.'
