@@ -20,6 +20,7 @@ module UnilevelSettlement
       contracts = PayoutRunExcelReader.new(@payout_run)
                                       .read_contracts.map { |data| Contract.find_by_contract_number(data[:contract_number]) }
                                       .compact
+      contracts = contracts.select { |contract| contract.created_at > @payout_run.created_at }
       contracts.each(&:destroy)
     end
 

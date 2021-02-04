@@ -12,6 +12,7 @@ module UnilevelSettlement
 
     def create_all_invoices
       @contracts = create_contracts
+      should_cancel_contacts? ? contract_error_message : @contracts
     end
 
     private
@@ -24,8 +25,7 @@ module UnilevelSettlement
 
     def create_contracts
       contracts_data = @excel_reader.read_contracts
-      contracts = contracts_data.map { |contract_data| create_contract(contract_data) }
-      contracts.all?(&:valid?) : contracts : cancel_contract_creation(contracts)
+      contracts_data.map { |contract_data| create_contract(contract_data) }
     end
 
     def create_contract(data)
@@ -44,9 +44,12 @@ module UnilevelSettlement
       User.send("find_by_#{UnilevelSettlement.consultant_number}", consultant_number)
     end
 
-    def cancel_contract_creation
-      @payout_run.cancel
-      raise 'Einige Verträge gibt es bereits'
+    def should_cancel_contacts?
+      !@contracts.all?(&:valid?)
+    end
+
+    def contract_error_message
+      { error: 'Einige Verträge gibt es bereits. Die Abrechnung wurde abgebrochen und alle dazugehörigen Daten wurden gelöscht.' }
     end
   end
 end
