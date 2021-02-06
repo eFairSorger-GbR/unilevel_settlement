@@ -13,6 +13,8 @@ module UnilevelSettlement
     def create_all_invoices
       @contracts = create_contracts
       should_cancel_contacts? ? contract_error_message : @contracts
+
+      create_records_and_initiate_invoices
     end
 
     private
@@ -22,6 +24,8 @@ module UnilevelSettlement
         find_user_by_consultant_number(consultant_number)
       end
     end
+
+    # --- contracts creation ---
 
     def create_contracts
       contracts_data = @excel_reader.read_contracts
@@ -51,5 +55,7 @@ module UnilevelSettlement
     def contract_error_message
       { error: 'Einige Verträge gibt es bereits. Die Abrechnung wurde abgebrochen und alle dazugehörigen Daten wurden gelöscht.' }
     end
+
+    # --- records creation & invoice initiation ---
   end
 end

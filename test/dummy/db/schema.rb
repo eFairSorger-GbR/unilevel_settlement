@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_02_203044) do
+ActiveRecord::Schema.define(version: 2021_02_06_123600) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,12 +40,12 @@ ActiveRecord::Schema.define(version: 2021_02_02_203044) do
     t.decimal "amount", precision: 8, scale: 2
     t.decimal "vat", precision: 8, scale: 2
     t.bigint "level"
-    t.bigint "unilevel_settlement_payout_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "unilevel_settlement_contract_id", null: false
+    t.bigint "unilevel_settlement_payout_invoice_id", null: false
     t.index ["unilevel_settlement_contract_id"], name: "index_unilevel_settlement_payout_record_on_contract_id"
-    t.index ["unilevel_settlement_payout_id"], name: "index_unilevel_settlement_payout_record_on_payout"
+    t.index ["unilevel_settlement_payout_invoice_id"], name: "index_unilevel_settlement_payout_record_on_invoice_id"
   end
 
   create_table "unilevel_settlement_payout_runs", force: :cascade do |t|
@@ -86,7 +86,7 @@ ActiveRecord::Schema.define(version: 2021_02_02_203044) do
   add_foreign_key "unilevel_settlement_contracts", "unilevel_settlement_providers"
   add_foreign_key "unilevel_settlement_payout_invoices", "unilevel_settlement_payout_runs"
   add_foreign_key "unilevel_settlement_payout_records", "unilevel_settlement_contracts"
-  add_foreign_key "unilevel_settlement_payout_records", "unilevel_settlement_payout_invoices", column: "unilevel_settlement_payout_id"
+  add_foreign_key "unilevel_settlement_payout_records", "unilevel_settlement_payout_invoices"
   add_foreign_key "unilevel_settlement_provisions", "unilevel_settlement_providers"
   add_foreign_key "unilevel_settlement_provisions", "unilevel_settlement_provisions_templates"
 end
