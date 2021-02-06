@@ -7,5 +7,16 @@ module UnilevelSettlement
 
     has_many :records, class_name: 'UnilevelSettlement::PayoutRecord', foreign_key: 'unilevel_settlement_payout_invoice_id',
                        inverse_of: :invoice
+
+    before_validation :create_invoice_number, on: :create
+
+    validates :invoice_number, presence: true, uniqueness: true
+
+    private
+
+    def create_invoice_number
+      others_count = PayoutRun.where(payout_date: run.payout_date.all_month).map(&:invoices).count
+      self.invoice_number = "eFS#{run.payout_date.strftime('%y%m')}#{others_count.succ.to_s.rjust(4, '0')}"
+    end
   end
 end
