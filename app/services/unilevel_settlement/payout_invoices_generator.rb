@@ -1,7 +1,7 @@
 module UnilevelSettlement
   class PayoutInvoicesGenerator
     def initialize(payout_run, excel_reader)
-      @payout_run = payout_run
+      @run = payout_run
       @excel_reader = excel_reader
       @users = find_all_users
     end
@@ -14,7 +14,7 @@ module UnilevelSettlement
       @contracts = create_contracts
       should_cancel_contacts? ? contract_error_message : @contracts
 
-      create_records_and_initiate_invoices
+      coordinate_records_and_invoice_creation
     end
 
     private
@@ -57,5 +57,24 @@ module UnilevelSettlement
     end
 
     # --- records creation & invoice initiation ---
+    def coordinate_records_and_invoice_creation
+      @contracts.each do |contract|
+        unilevel_users = collect_unilevel_users(contract)
+        create_records_and_invoice(contract, unilevel_users[:owner], level: 0)
+        create_records_and_invoice(contract, unilevel_users[:first_level_up], level: 1)
+        create_records_and_invoice(contract, unilevel_users[:second_level_up], level: 2)
+      end
+    end
+
+    def collect_unilevel_users(contract)
+      owner = contract.user
+      first_level_up = owner.send(UnilevelSettlement.consultant_sponsor)
+      second_level_up = first_level_up.send(UnilevelSettlement.consultant_sponsor)
+      { owner: owner, first_level_up: first_level_up, second_level_up: second_level_up }
+    end
+
+    def create_records_and_invoice(contract, user, level:)
+      invoice = PayoutInvoice.find_or_create_by(user: user, run: @run)
+    end
   end
 end
