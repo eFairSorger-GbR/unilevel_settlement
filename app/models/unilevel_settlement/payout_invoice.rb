@@ -23,6 +23,7 @@ module UnilevelSettlement
       save
     end
 
+    # TODO: total_vat_ok? returns false
     def totals_ok?
       sub_totals_ok? && total_vat_ok?
     end
@@ -30,19 +31,19 @@ module UnilevelSettlement
     private
 
     def create_invoice_number
-      others_count = PayoutRun.where(payout_date: run.payout_date.all_month).map(&:invoices).count
+      others_count = PayoutRun.where(payout_date: run.payout_date.all_month).map(&:invoices).flatten.count
       self.invoice_number = "eFS#{run.payout_date.strftime('%y%m')}#{others_count.succ.to_s.rjust(4, '0')}"
     end
 
     def calculate_invoice_totals
-      totals = records.pluck('SUM(amount)', 'SUM(vat').flatten
+      totals = records.pluck('SUM(amount)', 'SUM(vat)').flatten
       {
         sub_total_level0: records.for_level(0).sum(:amount),
         sub_total_level1: records.for_level(1).sum(:amount),
         sub_total_level2: records.for_level(2).sum(:amount),
         sub_total: totals.first,
         total_vat: totals.last,
-        total: totals.sum
+        total: totals.compact.sum
       }
     end
 

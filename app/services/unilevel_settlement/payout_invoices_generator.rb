@@ -17,7 +17,7 @@ module UnilevelSettlement
       coordinate_records_and_invoice_creation
       return records_error_message if should_cancel_records?
 
-      calculate_invoice_amounts
+      calculate_invoice_totals
       return invoices_error_message if should_cancel_invoices?
     end
 
@@ -75,7 +75,6 @@ module UnilevelSettlement
       owner = contract.user
       first_level_up = owner.send(UnilevelSettlement.consultant_sponsor)
       second_level_up = first_level_up.send(UnilevelSettlement.consultant_sponsor)
-      raise StandardError
       { owner: owner, first_level_up: first_level_up, second_level_up: second_level_up }
     end
 
