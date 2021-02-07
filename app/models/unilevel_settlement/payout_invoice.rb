@@ -20,8 +20,11 @@ module UnilevelSettlement
       self.sub_total = totals[:sub_total]
       self.total_vat = totals[:total_vat]
       self.total = totals[:total]
+      save
+    end
 
-      save if totals_ok?
+    def totals_ok?
+      sub_totals_ok? && total_vat_ok?
     end
 
     private
@@ -41,10 +44,6 @@ module UnilevelSettlement
         total_vat: totals.last,
         total: totals.sum
       }
-    end
-
-    def totals_ok?
-      sub_totals_ok? && total_vat_ok?
     end
 
     def sub_totals_ok?

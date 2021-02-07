@@ -86,7 +86,7 @@ module UnilevelSettlement
     end
 
     def should_cancel_records?
-      !@contracts.all?(&:valid?)
+      !@run.records.all?(&:valid?)
     end
 
     def records_error_message
@@ -96,11 +96,11 @@ module UnilevelSettlement
     # --- invoice amounts calculation ---
 
     def calculate_invoice_totals
-      @run.invoices.each(&:assign_invoice_totals)
+      @run.invoices.each(&:valid?) && @run.invoices.each(&:assign_invoice_totals)
     end
 
     def should_cancel_invoices?
-      !@contracts.all?(&:valid?)
+      !@run.invoices.all?(&:totals_ok?)
     end
 
     def invoices_error_message
