@@ -16,6 +16,9 @@ module UnilevelSettlement
 
       coordinate_records_and_invoice_creation
       return records_error_message if should_cancel_records?
+
+      calculate_invoice_amounts
+      return invoices_error_message if should_cancel_invoices?
     end
 
     private
@@ -90,5 +93,18 @@ module UnilevelSettlement
       { error: 'Es gab Probleme bei der Erstellung der Rechnungsposten. Die Abrechnung wurde abgebrochen und alle dazugehörigen Daten wurden gelöscht.' }
     end
 
+    # --- invoice amounts calculation ---
+
+    def calculate_invoice_totals
+      @run.invoices.each(&:assign_invoice_totals)
+    end
+
+    def should_cancel_invoices?
+      !@contracts.all?(&:valid?)
+    end
+
+    def invoices_error_message
+      { error: 'Es gab Probleme bei der Fertigstellung der Rechnungen. Die Abrechnung wurde abgebrochen und alle dazugehörigen Daten wurden gelöscht.' }
+    end
   end
 end

@@ -7,6 +7,8 @@ module UnilevelSettlement
 
     has_one :user, through: :invoice
 
+    scope :for_level, ->(level) { where(level: level) }
+
     def assign_attributes_from_contract
       self.amount = calculate_amount
       self.vat = calculate_vat if pays_vat?

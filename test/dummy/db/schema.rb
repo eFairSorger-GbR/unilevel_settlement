@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_06_132851) do
+ActiveRecord::Schema.define(version: 2021_02_07_134427) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,12 @@ ActiveRecord::Schema.define(version: 2021_02_06_132851) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "user_id"
+    t.decimal "sub_total_level0"
+    t.decimal "sub_total_level1"
+    t.decimal "sub_total_level2"
+    t.decimal "sub_total"
+    t.decimal "total_vat"
+    t.decimal "total"
     t.index ["unilevel_settlement_payout_run_id"], name: "index_unilevel_settlement_payout_on_payout_runs_id"
   end
 
