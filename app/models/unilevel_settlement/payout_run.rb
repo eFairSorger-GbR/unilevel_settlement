@@ -4,7 +4,7 @@ module UnilevelSettlement
 
     has_many :invoices, class_name: 'UnilevelSettlement::PayoutInvoices',
                         foreign_key: 'unilevel_settlement_payout_run_id', inverse_of: :run
-    has_many :payout_records, through: :invoices
+    has_many :records, through: :invoices
 
     has_one_attached :payout_records_source_excel
 

@@ -12,9 +12,10 @@ module UnilevelSettlement
 
     def create_all_invoices
       @contracts = create_contracts
-      should_cancel_contacts? ? contract_error_message : @contracts
+      return contracts_error_message if should_cancel_contacts?
 
       coordinate_records_and_invoice_creation
+      return records_error_message if should_cancel_records?
     end
 
     private
@@ -52,11 +53,12 @@ module UnilevelSettlement
       !@contracts.all?(&:valid?)
     end
 
-    def contract_error_message
+    def contracts_error_message
       { error: 'Einige Verträge gibt es bereits. Die Abrechnung wurde abgebrochen und alle dazugehörigen Daten wurden gelöscht.' }
     end
 
     # --- records creation & invoice initiation ---
+
     def coordinate_records_and_invoice_creation
       @contracts.each do |contract|
         unilevel_users = collect_unilevel_users(contract)
@@ -75,6 +77,18 @@ module UnilevelSettlement
 
     def create_records_and_invoice(contract, user, level:)
       invoice = PayoutInvoice.find_or_create_by(user: user, run: @run)
+      PayoutRecord.new(invoice: invoice, contract: contract, level: level)
+                  .assign_attributes_from_contract
+                  .save
     end
+
+    def should_cancel_records?
+      !@contracts.all?(&:valid?)
+    end
+
+    def records_error_message
+      { error: 'Es gab Probleme bei der Erstellung der Rechnungsposten. Die Abrechnung wurde abgebrochen und alle dazugehörigen Daten wurden gelöscht.' }
+    end
+
   end
 end

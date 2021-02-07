@@ -20,6 +20,11 @@ module UnilevelSettlement
     validates :name, presence: true, uniqueness: true
     validate :provisions_or_template_must_exist, :only_one_reference_assigned
 
+    def provision_for_level(level)
+      provisions_source = provisions.any? ? self : provisions_template
+      provisions_source.provisions.find_by_level(level).provision
+    end
+
     private
 
     def provisions_or_template_must_exist
