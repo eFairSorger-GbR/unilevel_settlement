@@ -23,7 +23,7 @@ class UnilevelSettlementGenerator < Rails::Generators::Base
       UnilevelSettlement.vat = 'vat_liability'
 
       # How high is VAT in percent (0 - 100)?
-      UnilevelSettlement.vat = 19
+      UnilevelSettlement.vat_proportion = 19
     MULTILINE
   end
 end

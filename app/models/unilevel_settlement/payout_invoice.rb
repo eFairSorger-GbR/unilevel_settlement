@@ -51,12 +51,12 @@ module UnilevelSettlement
     end
 
     def total_vat_ok?
-      vat_proportion = if UnilevelSettlement.vat.zero?
+      vat_proportion = if UnilevelSettlement.vat_proportion.zero?
                          0
-                       elsif UnilevelSettlement.vat < 1
-                         UnilevelSettlement.vat
-                       elsif UnilevelSettlement.vat > 1
-                         UnilevelSettlement.vat.fdiv(100)
+                       elsif UnilevelSettlement.vat_proportion < 1
+                         UnilevelSettlement.vat_proportion
+                       elsif UnilevelSettlement.vat_proportion > 1
+                         UnilevelSettlement.vat_proportion.fdiv(100)
                        end
 
       total_vat == sub_total * vat_proportion
