@@ -12,8 +12,8 @@ module UnilevelSettlement
     private
 
     def destroy_connected_data
-      destroy_new_invoices
       destroy_new_records
+      destroy_new_invoices
       destroy_new_contracts
       destroy_new_providers
     end

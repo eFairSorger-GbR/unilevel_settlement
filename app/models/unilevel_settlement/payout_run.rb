@@ -2,7 +2,7 @@ module UnilevelSettlement
   class PayoutRun < ApplicationRecord
     STATES = %w[payout_run_started awaiting_providers awaiting_payout_records].freeze
 
-    has_many :invoices, class_name: 'UnilevelSettlement::PayoutInvoices',
+    has_many :invoices, class_name: 'UnilevelSettlement::PayoutInvoice',
                         foreign_key: 'unilevel_settlement_payout_run_id', inverse_of: :run
     has_many :records, through: :invoices
 

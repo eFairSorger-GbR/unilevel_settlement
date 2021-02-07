@@ -75,14 +75,15 @@ module UnilevelSettlement
       owner = contract.user
       first_level_up = owner.send(UnilevelSettlement.consultant_sponsor)
       second_level_up = first_level_up.send(UnilevelSettlement.consultant_sponsor)
+      raise StandardError
       { owner: owner, first_level_up: first_level_up, second_level_up: second_level_up }
     end
 
     def create_records_and_invoice(contract, user, level:)
       invoice = PayoutInvoice.find_or_create_by(user: user, run: @run)
-      PayoutRecord.new(invoice: invoice, contract: contract, level: level)
+      ab = PayoutRecord.new(invoice: invoice, contract: contract, level: level)
                   .assign_attributes_from_contract
-                  .save
+      ab.save
     end
 
     def should_cancel_records?
