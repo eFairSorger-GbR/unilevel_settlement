@@ -80,9 +80,9 @@ module UnilevelSettlement
 
     def create_records_and_invoice(contract, user, level:)
       invoice = PayoutInvoice.find_or_create_by(user: user, run: @run)
-      ab = PayoutRecord.new(invoice: invoice, contract: contract, level: level)
+      PayoutRecord.new(invoice: invoice, contract: contract, level: level)
                   .assign_attributes_from_contract
-      ab.save
+                  .save
     end
 
     def should_cancel_records?

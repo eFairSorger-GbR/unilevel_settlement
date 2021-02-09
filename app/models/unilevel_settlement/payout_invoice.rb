@@ -23,7 +23,6 @@ module UnilevelSettlement
       save
     end
 
-    # TODO: total_vat_ok? returns false
     def totals_ok?
       sub_totals_ok? && total_vat_ok?
     end
@@ -52,6 +51,8 @@ module UnilevelSettlement
     end
 
     def total_vat_ok?
+      return true if !pays_vat? && total_vat.nil?
+
       vat_proportion = if UnilevelSettlement.vat_proportion.zero?
                          0
                        elsif UnilevelSettlement.vat_proportion < 1
@@ -61,6 +62,14 @@ module UnilevelSettlement
                        end
 
       total_vat == sub_total * vat_proportion
+    end
+
+    def pays_vat?
+      pays_vat = user.send(UnilevelSettlement.vat)
+      case pays_vat
+      when true, 'true', 'TRUE', 1, '1' then true
+      when false, 'false', 'FALSE', 0, '0' then false
+      end
     end
   end
 end
