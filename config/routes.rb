@@ -3,7 +3,7 @@ UnilevelSettlement::Engine.routes.draw do
   resources :provisions_templates, only: %i[index new create edit update destroy]
 
   namespace :payouts do
-    resources :payout_runs, only: %i[index new create] do
+    resources :payout_runs, only: %i[index show new create] do
       get 'start', on: :collection
 
       member do

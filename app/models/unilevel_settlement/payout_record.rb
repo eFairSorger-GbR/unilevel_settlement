@@ -32,6 +32,7 @@ module UnilevelSettlement
       end
     end
 
+    def calculate_vat
       vat_proportion = if UnilevelSettlement.vat_proportion.zero?
                          0
                        elsif UnilevelSettlement.vat_proportion < 1

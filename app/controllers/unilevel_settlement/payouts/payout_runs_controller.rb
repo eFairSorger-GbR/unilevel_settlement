@@ -7,6 +7,8 @@ module UnilevelSettlement
         @payout_runs = PayoutRun.all
       end
 
+      def show; end
+
       def start
         @payout_run = PayoutRun.new
       end
@@ -46,6 +48,7 @@ module UnilevelSettlement
         case @payout_run.state
         when 'awaiting_providers' then payouts_providers_path(@payout_run)
         when 'awaiting_payout_records' then create_all_payouts_payout_invoices_path
+        when 'run_finished' then payouts_payout_run_path(@payout_run)
         else
           start_payouts_payout_runs_path
         end

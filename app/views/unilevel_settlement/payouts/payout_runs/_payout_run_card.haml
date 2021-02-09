@@ -1,6 +1,7 @@
-.card.card-simple.margin-top{:id => "payout_run-#{payout_run.id}", style: 'cursor: auto'}
-  %h3{ style: 'color: white' }= "#{payout_run.payout_date.strftime('%d.%m.%Y')}"
+= link_to payouts_payout_run_path(payout_run) do
+  .card.card-simple.margin-top{:id => "payout_run-#{payout_run.id}", style: 'cursor: pointer'}
+    %h3{ style: 'color: white' }= "#{payout_run.payout_date.strftime('%d.%m.%Y')}"
 
-  %h4
-    Leistungszeitraum:
-    = "#{payout_run.performance_start_date.strftime('%d.%m.%Y')} - #{payout_run.performance_end_date.strftime('%d.%m.%Y')}"
+    %h4
+      Leistungszeitraum:
+      = "#{payout_run.performance_start_date.strftime('%d.%m.%Y')} - #{payout_run.performance_end_date.strftime('%d.%m.%Y')}"

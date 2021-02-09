@@ -9,7 +9,10 @@ module UnilevelSettlement
 
         if generator.all_users_known?
           invoices = generator.create_all_invoices
-          stop_invoices_creation(invoices[:error]) if invoices.is_a?(Hash) && invoices.key?(:error)
+          stop_invoices_creation(invoices[:error]) and return if invoices.is_a?(Hash) && invoices.key?(:error)
+
+          @payout_run.update(state: 'run_finished')
+          redirect_to flow_payouts_payout_run_path(@payout_run)
         else
           error_message = 'Nicht alle Berater aus der Excel existieren in der Datenbank. Die Abrechnung wurde abgebrochen und alle dazugehörigen Daten wurden gelöscht.'
           stop_invoices_creation(error_message)
