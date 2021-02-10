@@ -15,6 +15,9 @@ class UnilevelSettlementGenerator < Rails::Generators::Base
       # Set the offical consultant number of the user (might not be the id)
       UnilevelSettlement.consultant_number = 'consultant_number'
 
+      # Method on consultant to retrieve full name. This will be within the settlement invoice.
+      UnilevelSettlement.consultant_full_name = 'full_name'
+
       # With which method do you access a cunsultans's sponsor?
       UnilevelSettlement.consultant_sponsor = 'sponsor'
 

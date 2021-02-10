@@ -7,3 +7,72 @@
 
   .w30.t-right
     = link_to 'Abrechnung löschen', cancel_payouts_payout_run_path(@payout_run), method: :delete, class: 'btn-base btn-sec-ghost', data: { confirm: 'Sicher? Die Löschung kann nicht mehr rückgängig gemacht werden. Alle dazugehörigen Abrechnungen, Abrechnungsposten und Verträge werden gelöscht. Die Rechnungsnummern werden wieder frei und ggf. erneut in einer neuen Abrechnung verwendet.' }
+
+.flex
+  .w30
+    Anzahl Abrechnungen:
+    %br
+    Gesamtauszahlung brutto:
+    %br
+    Gesamtauszahlung netto:
+    %br
+    Gesamt Steuer:
+  .w70
+    = @count_payouts
+    %br
+    = number_to_currency(@total_payout, unit: '€')
+    %br
+    = number_to_currency(@sub_total_payout, unit: '€')
+    %br
+    = number_to_currency(@total_vat_payout, unit: '€')
+
+
+- if @efairsorger
+  .margin-top
+    %h2 eFairSorger
+    %table.margin-top
+      %tr
+        %th Re. Nr.
+        %th Gesamt brutto
+        %th Steuer
+        %th Gesamt netto
+        %th Eigenprovision
+        %th First Level
+        %th Second Level
+      %tr
+        %td= link_to @efairsorger.invoice_number, payouts_payout_invoice_path(@efairsorger)
+        %td= number_to_currency(@efairsorger.total, unit: '€')
+        %td= number_to_currency(@efairsorger.total_vat, unit: '€')
+        %td= number_to_currency(@efairsorger.sub_total, unit: '€')
+        %td= number_to_currency(@efairsorger.sub_total_level0, unit: '€')
+        %td= number_to_currency(@efairsorger.sub_total_level1, unit: '€')
+        %td= number_to_currency(@efairsorger.sub_total_level2, unit: '€')
+
+
+- if @invoices.any?
+  %br
+  %br
+  %br
+  %h2 Abrechnungen
+  %table.margin-top
+    %tr
+      %th Re. Nr.
+      %th Berater
+      %th Beraternr
+      %th Gesamt brutto
+      %th Steuer
+      %th Gesamt netto
+      %th Eigenprovision
+      %th First Level
+      %th Second Level
+    - @invoices.each do |invoice|
+      %tr
+        %td= link_to invoice.invoice_number, payouts_payout_invoice_path(invoice)
+        %td= invoice.user.send(UnilevelSettlement.consultant_full_name)
+        %td= invoice.user.send(UnilevelSettlement.consultant_number)
+        %td= number_to_currency(invoice.total, unit: '€')
+        %td= number_to_currency(invoice.total_vat, unit: '€')
+        %td= number_to_currency(invoice.sub_total, unit: '€')
+        %td= number_to_currency(invoice.sub_total_level0, unit: '€')
+        %td= number_to_currency(invoice.sub_total_level1, unit: '€')
+        %td= number_to_currency(invoice.sub_total_level2, unit: '€')

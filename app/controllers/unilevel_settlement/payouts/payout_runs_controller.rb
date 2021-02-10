@@ -7,7 +7,14 @@ module UnilevelSettlement
         @payout_runs = PayoutRun.all
       end
 
-      def show; end
+      def show
+        @efairsorger = PayoutInvoice.find_by(user: User.find_by(first_name: 'eFairSorger'))
+        @invoices = @payout_run.invoices.where.not(id: @efairsorger.id)
+        @total_payout = @invoices.sum(:total)
+        @total_vat_payout = @invoices.sum(:total_vat)
+        @sub_total_payout = @invoices.sum(:sub_total)
+        @count_payouts = @invoices.count
+      end
 
       def start
         @payout_run = PayoutRun.new

@@ -3,6 +3,7 @@ require "unilevel_settlement/engine"
 module UnilevelSettlement
   mattr_accessor :user_class
   mattr_accessor :consultant_number
+  mattr_accessor :consultant_full_name
   mattr_accessor :consultant_sponsor
   mattr_accessor :vat
   mattr_accessor :vat_proportion
@@ -18,6 +19,10 @@ module UnilevelSettlement
 
   def self.consultant_sponsor
     @@consultant_sponsor
+  end
+
+  def self.consultant_full_name
+    @@consultant_full_name
   end
 
   def self.vat
