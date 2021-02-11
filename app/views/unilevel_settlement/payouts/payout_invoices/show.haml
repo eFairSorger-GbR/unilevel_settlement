@@ -1,2 +1,114 @@
 = link_to '<<< Zum Abrechnungslauf', payouts_payout_run_path(@invoice.run)
 %h1= @invoice.invoice_number
+
+.flex.f-bold
+  .w30
+    Gesamt Auszahlung:
+    - unless @invoice.user.send(UnilevelSettlement.vat)
+      %br
+      Netto:
+      %br
+      Steuer:
+  .w70
+    = number_to_currency(@invoice.total, unit: '€')
+    - unless @invoice.user.send(UnilevelSettlement.vat)
+      %br
+      = number_to_currency(@invoice.sub_total, unit: '€')
+      %br
+      = number_to_currency(@invoice.total_vat, unit: '€')
+
+.flex.margin-top
+  .w30
+    Eigenverträge Anzahl:
+    %br
+    Eigenverträge:
+    %br
+    First Level:
+    %br
+    Second Level:
+  .w70
+    = @level0_records.count
+    %br
+    = number_to_currency(@invoice.sub_total_level0, unit: '€')
+    %br
+    = number_to_currency(@invoice.sub_total_level1, unit: '€')
+    %br
+    = number_to_currency(@invoice.sub_total_level2, unit: '€')
+
+
+- if @level0_records.any?
+  .margin-top
+    %h2 Eigenverträge
+    %table
+      %tr
+        %th Vertragsnummer
+        %th Produkt
+        %th Kunde
+        %th Hinweis
+        %th Netto
+      - @level0_records.each do |record|
+        - contract = record.contract
+        %tr
+          %td= contract.contract_number
+          %td= contract.product
+          %td= contract.customer
+          %td= "#{'Storno' if contract.cancellation}#{'Abgelehnt' if contract.rejected}"
+          %td{ style: 'text-align: right !important' }= number_to_currency(record.amount, unit: '€')
+      %tr
+        %td
+        %td
+        %td
+        %td
+        %td.f-bold{ style: 'text-align: right !important' }= number_to_currency(@invoice.sub_total_level0, unit: '€')
+
+- if @level1_records.any? || @level2_users.any?
+  .margin-top
+    %h2 Unilevel
+    - if @level1_records.any?
+      %h3 First Level
+      %table
+        %tr
+          %th Berater
+          %th Berternummer
+          %th Vertragsnummer
+          %th Produkt
+          %th Kunde
+          %th Hinweis
+          %th Netto
+        - @level1_records.each do |record|
+          - contract = record.contract
+          %tr
+            %td= contract.user.send(UnilevelSettlement.consultant_full_name)
+            %td= contract.user.send(UnilevelSettlement.consultant_number)
+            %td= contract.contract_number
+            %td= contract.product
+            %td= contract.customer
+            %td= "#{'Storno' if contract.cancellation}#{'Abgelehnt' if contract.rejected}"
+            %td{ style: 'text-align: right !important' }= number_to_currency(record.amount, unit: '€')
+        %tr
+          %td
+          %td
+          %td
+          %td
+          %td
+          %td
+          %td.f-bold{ style: 'text-align: right !important' }= number_to_currency(@invoice.sub_total_level1, unit: '€')
+
+    - if @level2_users.any?
+      %h3 Second Level
+      %table
+        %tr
+          %th Berater
+          %th Beraternummer
+          %th Netto
+        - @level2_users.each do |user|
+          %tr
+            %td= user.send(UnilevelSettlement.consultant_full_name)
+            %td= user.send(UnilevelSettlement.consultant_number)
+            %td{ style: 'text-align: right !important' }= number_to_currency(@level2_records.select { |record| record.closer == user }.reduce(0) { |s, r| s + r.amount }, unit: '€')
+        %tr
+          %td
+          %td
+          %td.f-bold{ style: 'text-align: right !important' }= number_to_currency(@invoice.sub_total_level2, unit: '€')
+
+

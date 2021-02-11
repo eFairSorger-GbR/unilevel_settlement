@@ -7,6 +7,10 @@ module UnilevelSettlement
 
       def show
         @invoice = PayoutInvoice.find(params[:id])
+        @level0_records = @invoice.records.for_level(0)
+        @level1_records = @invoice.records.for_level(1).sort_by(&:closer)
+        @level2_records = @invoice.records.for_level(2)
+        @level2_users = @level2_records.sort_by(&:closer).map(&:closer).uniq
       end
 
       def create_all

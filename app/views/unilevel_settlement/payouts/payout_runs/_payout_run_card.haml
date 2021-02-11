@@ -5,3 +5,21 @@
     %h4
       Leistungszeitraum:
       = "#{payout_run.performance_start_date.strftime('%d.%m.%Y')} - #{payout_run.performance_end_date.strftime('%d.%m.%Y')}"
+
+    .flex
+      .w50
+        Anzahl Abrechnungen:
+        %br
+        Gesamtauszahlung brutto:
+        %br
+        Gesamtauszahlung netto:
+        %br
+        Gesamt Steuer:
+      .w50
+        = payout_run.invoices.count
+        %br
+        = number_to_currency(payout_run.invoices.sum(:total), unit: '€')
+        %br
+        = number_to_currency(payout_run.invoices.sum(:total_vat), unit: '€')
+        %br
+        = number_to_currency(payout_run.invoices.sum(:sub_total), unit: '€')

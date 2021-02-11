@@ -15,6 +15,10 @@ module UnilevelSettlement
       self
     end
 
+    def closer
+      contract.user
+    end
+
     private
 
     def calculate_amount
