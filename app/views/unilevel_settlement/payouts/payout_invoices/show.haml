@@ -4,14 +4,14 @@
 .flex.f-bold
   .w30
     Gesamt Auszahlung:
-    - unless @invoice.user.send(UnilevelSettlement.vat)
+    - if @invoice.user.send(UnilevelSettlement.vat) == 'true'
       %br
       Netto:
       %br
       Steuer:
   .w70
     = number_to_currency(@invoice.total, unit: '€')
-    - unless @invoice.user.send(UnilevelSettlement.vat)
+    - if @invoice.user.send(UnilevelSettlement.vat) == 'true'
       %br
       = number_to_currency(@invoice.sub_total, unit: '€')
       %br
