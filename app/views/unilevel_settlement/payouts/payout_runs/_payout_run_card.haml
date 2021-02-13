@@ -1,6 +1,9 @@
 = link_to payouts_payout_run_path(payout_run) do
   .card.card-simple.margin-top{:id => "payout_run-#{payout_run.id}", style: 'cursor: pointer'}
-    %h3{ style: 'color: white' }= "#{payout_run.payout_date.strftime('%d.%m.%Y')}"
+    .flex
+      %h3.w50{ style: 'color: white' }= payout_run.payout_date.strftime('%d.%m.%Y')
+      %h3.w50.t-right{ style: 'color: white' }= number_to_currency(payout_run.invoices.sum(:total), unit: '€')
+
 
     %h4
       Leistungszeitraum:
@@ -10,16 +13,12 @@
       .w50
         Anzahl Abrechnungen:
         %br
-        Gesamtauszahlung brutto:
-        %br
         Gesamtauszahlung netto:
         %br
         Gesamt Steuer:
       .w50
         = payout_run.invoices.count
         %br
-        = number_to_currency(payout_run.invoices.sum(:total), unit: '€')
+        = number_to_currency(payout_run.invoices.sum(:sub_total), unit: '€')
         %br
         = number_to_currency(payout_run.invoices.sum(:total_vat), unit: '€')
-        %br
-        = number_to_currency(payout_run.invoices.sum(:sub_total), unit: '€')
