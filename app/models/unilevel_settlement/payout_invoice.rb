@@ -8,6 +8,8 @@ module UnilevelSettlement
     has_many :records, class_name: 'UnilevelSettlement::PayoutRecord', foreign_key: 'unilevel_settlement_payout_invoice_id',
                        inverse_of: :invoice
 
+    has_one_attached :invoice_pdf
+
     before_validation :create_invoice_number, on: :create
 
     validates :invoice_number, presence: true, uniqueness: true
@@ -25,6 +27,11 @@ module UnilevelSettlement
 
     def totals_ok?
       sub_totals_ok? && total_vat_ok?
+    end
+
+    def attach_invoice_pdf
+      pdf_generator = UnilevelSettlement.pdf_creation_service.new(self)
+      pdf_generator.send(UnilevelSettlement.pdf_creation_method)
     end
 
     private

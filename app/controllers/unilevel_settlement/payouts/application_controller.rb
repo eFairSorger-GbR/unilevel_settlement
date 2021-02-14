@@ -15,6 +15,8 @@ module UnilevelSettlement
       end
 
       def set_payout_run
+        @payout_run = PayoutRun.find(params[:payout_run_id]) and return if params[:payout_run_id]
+
         @payout_run = PayoutRun.find(params[:id]) if params[:id]
       end
     end

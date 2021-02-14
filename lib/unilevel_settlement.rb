@@ -8,6 +8,10 @@ module UnilevelSettlement
   mattr_accessor :vat
   mattr_accessor :vat_proportion
 
+  # -- pdf generation
+  mattr_accessor :should_create_invoice_pdf
+  mattr_accessor :pdf_creation_service
+  mattr_accessor :pdf_creation_method
   # class name from app set by initializer via lib/generators/unilevel_settlement.rb
   def self.user_class
     @@user_class.constantize
@@ -31,5 +35,19 @@ module UnilevelSettlement
 
   def self.vat_proportion
     @@vat_proportion
+  end
+
+  # -- pdf generation --
+
+  def self.should_create_invoice_pdf
+    @@should_create_invoice_pdf
+  end
+
+  def self.pdf_creation_service
+    @@pdf_creation_service.is_a?(String) ? @@pdf_creation_service.constanize : @@pdf_creation_service
+  end
+
+  def self.pdf_creation_method
+    @@pdf_creation_method
   end
 end

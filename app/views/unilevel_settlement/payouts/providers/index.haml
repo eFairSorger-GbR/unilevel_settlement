@@ -1,13 +1,13 @@
 .flex
   .w70
     %h1 Neue Abrechnung erstellen
-    %h2 Ausgelesne Anbieter bearbeiten
+    %h2 Ausgelesene Anbieter bearbeiten
   .w30.t-right
-    = link_to 'Abbrechen', cancel_payouts_payout_run_path, method: :delete, class: 'btn-base btn-sec-ghost', data: { confirm: 'Möchstest du wirklich abbrechen? Alle zu dieser Abrechnung erstellten Daten werden gelöscht.' }
+    = link_to 'Abbrechen', cancel_payouts_payout_run_path(@payout_run), method: :delete, class: 'btn-base btn-sec-ghost', data: { confirm: 'Möchstest du wirklich abbrechen? Alle zu dieser Abrechnung erstellten Daten werden gelöscht.' }
 
 .centered-content
   - @providers.each do |provider|
     = render 'provider_card', provider: provider
 
   .margin-top.t-center
-    = link_to 'Weiter', check_provider_validity_payouts_providers_path, class: 'btn-base btn-sec'
+    = link_to 'Weiter', check_provider_validity_payouts_payout_run_providers_path, class: 'btn-base btn-sec'

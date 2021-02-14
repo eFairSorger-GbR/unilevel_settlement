@@ -96,7 +96,9 @@ module UnilevelSettlement
     # --- invoice amounts calculation ---
 
     def calculate_invoice_totals
-      @run.invoices.each(&:valid?) && @run.invoices.each(&:assign_invoice_totals)
+      return unless @run.invoices.each(&:valid?) && @run.invoices.each(&:assign_invoice_totals)
+
+      @run.invoices.each(&:attach_invoice_pdf) if UnilevelSettlement.should_create_invoice_pdf
     end
 
     def should_cancel_invoices?

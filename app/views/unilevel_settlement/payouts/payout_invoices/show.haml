@@ -1,5 +1,9 @@
 = link_to '<<< Zurück', :back
-%h1= @invoice.invoice_number
+.flex
+  .w50
+    %h1= @invoice.invoice_number
+  .w50.t-right
+    = link_to 'Abrechnung PDF', rails_blob_path(@invoice.invoice_pdf, disposition: "attachment"), class: 'btn-base btn-main'
 
 .flex.f-bold
   .w30

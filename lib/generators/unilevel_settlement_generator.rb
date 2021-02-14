@@ -27,6 +27,16 @@ class UnilevelSettlementGenerator < Rails::Generators::Base
 
       # How high is VAT in percent (0 - 100)?
       UnilevelSettlement.vat_proportion = 19
+
+      # Do you want to create invoice pdfs during payout_invoice_generation?
+      # If so, you need to create a service that does create it and attach it to the invoice.
+      # For the initialization, you will be handed the invoice, and only the invoice, as an argument.
+      # After initialization/instantiation we will call the attaching/generation method on the instatinized service (only one method).
+      # You can attach the pdf to the invoice model through the active storage relation `has_one_attached :invoice_pdf` we put on invoice.
+      # That`s it! You do not need to return anything.
+      UnilevelSettlement.should_create_invoice_pdf = true
+      UnilevelSettlement.pdf_creation_service = InvoicePdfCreator
+      UnilevelSettlement.pdf_creation_method = 'attach_invoice_pdf'
     MULTILINE
   end
 end

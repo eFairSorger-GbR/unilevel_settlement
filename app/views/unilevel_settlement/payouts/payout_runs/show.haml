@@ -41,7 +41,7 @@
         %th First Level
         %th Second Level
       %tr
-        %td= link_to @efairsorger.invoice_number, payouts_payout_invoice_path(@efairsorger)
+        %td= link_to @efairsorger.invoice_number, payouts_payout_run_payout_invoice_path(@payout_run, @efairsorger)
         %td= number_to_currency(@efairsorger.total, unit: '€')
         %td= number_to_currency(@efairsorger.total_vat, unit: '€')
         %td= number_to_currency(@efairsorger.sub_total, unit: '€')
@@ -68,7 +68,7 @@
       %th Second Level
     - @invoices.each do |invoice|
       %tr
-        %td= link_to invoice.invoice_number, payouts_payout_invoice_path(invoice)
+        %td= link_to invoice.invoice_number, payouts_payout_run_payout_invoice_path(@payout_run, invoice)
         %td= invoice.user.send(UnilevelSettlement.consultant_full_name)
         %td= invoice.user.send(UnilevelSettlement.consultant_number)
         %td= number_to_currency(invoice.total, unit: '€')

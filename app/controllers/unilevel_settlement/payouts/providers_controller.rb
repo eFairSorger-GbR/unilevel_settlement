@@ -33,7 +33,7 @@ module UnilevelSettlement
         @providers = instantiate_providers
 
         if @providers.all?(&:valid?) && @payout_run.update(state: 'awaiting_payout_records')
-          redirect_to flow_payouts_payout_run_path
+          redirect_to flow_payouts_payout_run_path(@payout_run)
         else
           flash.now[:error] = 'Bitte füge für alle neuen Anbieter Provisionen hinzu und speichere sie ab.'
           render :index

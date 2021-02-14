@@ -37,7 +37,7 @@ module UnilevelSettlement
       def cancel
         @payout_run.cancel
         flash[:notice] = 'Die Abrechnung und alle dazugehörigen Daten wurden gelöscht'
-        redirect_to payouts_payout_runs_path
+        redirect_to payouts_payout_runs_path(@payout_run)
       end
 
       private
@@ -53,8 +53,8 @@ module UnilevelSettlement
 
       def set_next_path
         case @payout_run.state
-        when 'awaiting_providers' then payouts_providers_path(@payout_run)
-        when 'awaiting_payout_records' then create_all_payouts_payout_invoices_path
+        when 'awaiting_providers' then payouts_payout_run_providers_path(@payout_run)
+        when 'awaiting_payout_records' then create_all_payouts_payout_run_payout_invoices_path(@payout_run)
         when 'run_finished' then payouts_payout_run_path(@payout_run)
         else
           start_payouts_payout_runs_path

@@ -3,7 +3,6 @@ require_dependency 'unilevel_settlement/payouts/application_controller'
 module UnilevelSettlement
   module Payouts
     class PayoutInvoicesController < ApplicationController
-      skip_before_action :set_payout_run
 
       def show
         @invoice = PayoutInvoice.find(params[:id])

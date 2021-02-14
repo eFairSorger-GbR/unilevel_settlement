@@ -22,7 +22,7 @@
       = f.submit 'Änderungen speichern', class: 'btn-base btn-sec'
 
 - else
-  = form_with model: provider, url: payouts_provider_path(provider), remote: true do |f|
+  = form_with model: provider, url: payouts_payout_run_provider_path(@payout_run, provider), remote: true do |f|
     Füge ein Template oder einzelne Provisionen hinzu
     = f.render_errors :provisions_template
     = f.hidden_field :name, value: provider.name
