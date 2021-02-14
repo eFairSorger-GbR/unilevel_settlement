@@ -1,5 +1,5 @@
 - if provider.new_record?
-  = form_with model: provider, url: payouts_providers_path, remote: true do |f|
+  = form_with model: provider, url: payouts_payout_run_providers_path(@payout_run, provider), remote: true do |f|
     Füge ein Template oder einzelne Provisionen hinzu
     = f.render_errors :provisions_template
     = f.hidden_field :name, value: provider.name
