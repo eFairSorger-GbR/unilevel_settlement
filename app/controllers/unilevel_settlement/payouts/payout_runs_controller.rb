@@ -34,6 +34,16 @@ module UnilevelSettlement
         redirect_to set_next_path
       end
 
+      def publish
+        if @payout_run.published_date.nil? && @payout_run.update(published_date: Date.today)
+          @payout_run.invoices.each { |i| i.user.send_new_invoice(i) }
+          flash[:notice] = 'Die Abrechnungen wurden veröffentlicht und die Berater benachrichtigt.'
+        else
+          flash[:error] = 'Die Aktion konnte nicht durchgeführt werden'
+        end
+        redirect_to payouts_payout_run_path(@payout_run)
+      end
+
       def cancel
         @payout_run.cancel
         flash[:notice] = 'Die Abrechnung und alle dazugehörigen Daten wurden gelöscht'

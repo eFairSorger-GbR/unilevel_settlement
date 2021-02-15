@@ -16,6 +16,7 @@ UnilevelSettlement::Engine.routes.draw do
 
       member do
         get 'flow'
+        patch 'publish'
         delete 'cancel'
       end
     end

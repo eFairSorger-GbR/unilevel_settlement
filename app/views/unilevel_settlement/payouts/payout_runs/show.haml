@@ -7,7 +7,13 @@
       = "#{@payout_run.performance_start_date.strftime('%d.%m.%Y')} - #{@payout_run.performance_end_date.strftime('%d.%m.%Y')}"
 
   .w30.t-right
-    = link_to 'Abrechnung löschen', cancel_payouts_payout_run_path(@payout_run), method: :delete, class: 'btn-base btn-sec-ghost', data: { confirm: 'Sicher? Die Löschung kann nicht mehr rückgängig gemacht werden. Alle dazugehörigen Abrechnungen, Abrechnungsposten und Verträge werden gelöscht. Die Rechnungsnummern werden wieder frei und ggf. erneut in einer neuen Abrechnung verwendet.' }
+    %div
+      - if @payout_run.published_date.nil?
+        = link_to 'Abrechnung veröffentlichen', publish_payouts_payout_run_path(@payout_run), method: :patch, class: 'btn-base btn-main', data: { confirm: 'Sicher? Alle Berater, welche eine Abrechnung erhalten, werden per Email benachrichtigt und die Abrechnung ist in ihrem Account sichtbar. Diese Aktion ist nicht umkehrbar. '}
+      - else
+        = "Veröffentlicht #{@payout_run.published_date.strftime('%d.%m.%Y')}"
+    .margin-top
+      = link_to 'Abrechnung löschen', cancel_payouts_payout_run_path(@payout_run), method: :delete, class: 'btn-base btn-sec-ghost', data: { confirm: 'Sicher? Die Löschung kann nicht mehr rückgängig gemacht werden. Alle dazugehörigen Abrechnungen, Abrechnungsposten und Verträge werden gelöscht. Die Rechnungsnummern werden wieder frei und ggf. erneut in einer neuen Abrechnung verwendet.' }
 
 .flex
   .w30
