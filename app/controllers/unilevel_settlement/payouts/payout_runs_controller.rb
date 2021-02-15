@@ -8,7 +8,7 @@ module UnilevelSettlement
       end
 
       def show
-        @efairsorger = PayoutInvoice.find_by(user: User.find_by(first_name: 'eFairSorger'))
+        @efairsorger = @payout_run.invoices.find_by(user: User.find_by(first_name: 'eFairSorger'))
         @invoices = @payout_run.invoices.where.not(id: @efairsorger.id)
         @total_payout = @invoices.sum(:total)
         @total_vat_payout = @invoices.sum(:total_vat)

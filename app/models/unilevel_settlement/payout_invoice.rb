@@ -37,8 +37,17 @@ module UnilevelSettlement
     private
 
     def create_invoice_number
-      others_count = PayoutRun.where(payout_date: run.payout_date.all_month).map(&:invoices).flatten.count
-      self.invoice_number = "eFS#{run.payout_date.strftime('%y%m')}#{others_count.succ.to_s.rjust(4, '0')}"
+      efairsorger = User.find_by(first_name: 'eFairSorger')
+      others_count = PayoutRun.where(payout_date: run.payout_date.all_month)
+                              .map { |pr| pr.invoices.where.not(user: efairsorger) }
+                              .flatten
+                              .count
+
+      self.invoice_number = if user == efairsorger
+                              "eFairSorger_#{run.payout_date.strftime('%Y-%m-%d')}"
+                            else
+                              "eFS#{run.payout_date.strftime('%y%m')}#{others_count.succ.to_s.rjust(4, '0')}"
+                            end
     end
 
     def calculate_invoice_totals
