@@ -15,7 +15,7 @@
         - if !provider.inactive
           = render partial: 'provider_card', locals: { provider: provider }
 
-  #inactive-providers.margin-top
+  #inactive-providers.margin-top.d-none
     - if @providers&.any?(&:inactive?)
       - @providers.each do |provider|
         - if provider.inactive
