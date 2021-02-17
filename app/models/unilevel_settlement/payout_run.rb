@@ -19,7 +19,11 @@ module UnilevelSettlement
     default_scope { order(payout_date: :desc) }
 
     def payout_records_source_excel_file_path
-      ActiveStorage::Blob.service.send(:path_for, payout_records_source_excel.key)
+      if Rails.env.production?
+        Rails.application.routes.url_helpers.rails_blob_url(payout_records_source_excel, host: 'www.efairsorger.org')
+      else
+        ActiveStorage::Blob.service.send(:path_for, payout_records_source_excel.key)
+      end
     end
 
     def cancel
