@@ -33,6 +33,8 @@ class UnilevelSettlementGenerator < Rails::Generators::Base
       # For the initialization, you will be handed the invoice, and only the invoice, as an argument.
       # After initialization/instantiation we will call the attaching/generation method on the instatinized service (only one method).
       # You can attach the pdf to the invoice model through the active storage relation `has_one_attached :invoice_pdf` we put on invoice.
+      # If you want that, you will also be able to download all invoice_pdfs from a payout_run in a zip!
+      # Please have `gem active_storage-sent_zip` installed on the main app.
       # That`s it! You do not need to return anything.
       UnilevelSettlement.should_create_invoice_pdf = true
       UnilevelSettlement.pdf_creation_service = InvoicePdfCreator

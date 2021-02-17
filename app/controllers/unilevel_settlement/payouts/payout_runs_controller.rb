@@ -3,6 +3,8 @@ require_dependency 'unilevel_settlement/payouts/application_controller'
 module UnilevelSettlement
   module Payouts
     class PayoutRunsController < ApplicationController
+      include ActiveStorage::SendZip
+
       def index
         @payout_runs = PayoutRun.all
       end
@@ -14,6 +16,14 @@ module UnilevelSettlement
         @total_vat_payout = @invoices.sum(:total_vat)
         @sub_total_payout = @invoices.sum(:sub_total)
         @count_payouts = @invoices.count
+
+        respond_to do |format|
+          format.html { render }
+          format.zip {
+            send_zip @invoices.to_a.concat([@efairsorger]).map(&:invoice_pdf),
+            filename: "eFairSorger_Abrechnungen_#{@payout_run.payout_date.strftime('%Y-%m-%d')}.zip"
+          }
+        end
       end
 
       def start
