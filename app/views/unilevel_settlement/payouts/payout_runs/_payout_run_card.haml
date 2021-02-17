@@ -1,5 +1,5 @@
 = link_to payouts_payout_run_path(payout_run) do
-  .card.card-simple.margin-top{:id => "payout_run-#{payout_run.id}", style: 'cursor: pointer'}
+  .card.margin-top{:id => "payout_run-#{payout_run.id}", style: 'cursor: pointer'}
     .flex
       %h3.w50{ style: 'color: white' }= payout_run.payout_date.strftime('%d.%m.%Y')
       %h3.w50.t-right{ style: 'color: white' }= number_to_currency(payout_run.invoices.sum(:total), unit: '€')
