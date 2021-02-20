@@ -39,6 +39,16 @@ class UnilevelSettlementGenerator < Rails::Generators::Base
       UnilevelSettlement.should_create_invoice_pdf = true
       UnilevelSettlement.pdf_creation_service = InvoicePdfCreator
       UnilevelSettlement.pdf_creation_method = 'attach_invoice_pdf'
+
+      # Do you want to allow a SEPA CSV to be exportable for any given payout_run?
+      # If so, you need to create a service that does generate and return it.
+      # For the initialization, you will be handed the payout_run, and only the payout_run, as an argument.
+      # After initialization/instantiation we will call the generation method on the instatinized service (only one method).
+      # Then we will return the CSV within the payout_run show.
+      # That`s it! You do not need to return anything.
+      UnilevelSettlement.should_export_csv = true
+      UnilevelSettlement.csv_generation_service = PayoutRunCsvGenerator
+      UnilevelSettlement.csv_generation_method = 'generate_payout_run_csv'
     MULTILINE
   end
 end

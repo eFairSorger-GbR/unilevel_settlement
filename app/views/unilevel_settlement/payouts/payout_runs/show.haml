@@ -15,6 +15,9 @@
     - if UnilevelSettlement.should_create_invoice_pdf
       .margin-top
         = link_to 'Zip Download', payouts_payout_run_path(@payout_run, format: :zip),class: 'btn-base btn-main'
+    - if UnilevelSettlement.should_export_csv
+      .margin-top
+        = link_to 'SEPA Export', payouts_payout_run_path(@payout_run, format: :csv),class: 'btn-base btn-main'
     .margin-top
       = link_to 'Abrechnung löschen', cancel_payouts_payout_run_path(@payout_run), method: :delete, class: 'btn-base btn-sec-ghost', data: { confirm: 'Sicher? Die Löschung kann nicht mehr rückgängig gemacht werden. Alle dazugehörigen Abrechnungen, Abrechnungsposten und Verträge werden gelöscht. Die Rechnungsnummern werden wieder frei und ggf. erneut in einer neuen Abrechnung verwendet.' }
 

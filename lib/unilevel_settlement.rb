@@ -12,6 +12,12 @@ module UnilevelSettlement
   mattr_accessor :should_create_invoice_pdf
   mattr_accessor :pdf_creation_service
   mattr_accessor :pdf_creation_method
+
+  # -- csv_generation
+  mattr_accessor :should_export_csv
+  mattr_accessor :csv_generation_service
+  mattr_accessor :csv_generation_method
+
   # class name from app set by initializer via lib/generators/unilevel_settlement.rb
   def self.user_class
     @@user_class.constantize
@@ -49,5 +55,19 @@ module UnilevelSettlement
 
   def self.pdf_creation_method
     @@pdf_creation_method
+  end
+
+  # -- csv generation --
+
+  def self.should_export_csv
+    @@should_export_csv
+  end
+
+  def self.csv_generation_service
+    @@csv_generation_service.is_a?(String) ? @@csv_generation_service.constanize : @@csv_generation_service
+  end
+
+  def self.csv_generation_method
+    @@csv_generation_method
   end
 end

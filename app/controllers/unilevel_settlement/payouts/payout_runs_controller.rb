@@ -22,11 +22,9 @@ module UnilevelSettlement
         @count_payouts = @invoices.count
 
         respond_to do |format|
-          format.html { render }
-          format.zip {
-            send_zip @invoices.to_a.concat([@efairsorger]).map(&:invoice_pdf),
-            filename: "eFairSorger_Abrechnungen_#{@payout_run.payout_date.strftime('%Y-%m-%d')}.zip"
-          }
+          format.html render
+          format.csv send_data generate_payout_run_csv, filename: csv_filename
+          format.zip send_zip @invoices.to_a.concat([@efairsorger]).map(&:invoice_pdf), filename: zip_filename
         end
       end
 
@@ -83,6 +81,19 @@ module UnilevelSettlement
         else
           start_payouts_payout_runs_path
         end
+      end
+
+      def zip_filename
+        "eFairSorger_Abrechnungen_#{@payout_run.payout_date.strftime('%Y-%m-%d')}.zip"
+      end
+
+      def generate_payout_run_csv
+        UnilevelSettlement.csv_generation_service.new(@payout_run)
+                          .send(UnilevelSettlement.csv_generation_method)
+      end
+
+      def csv_filename
+        "eFS_SEPA_Abrechnung_#{@payout_run.payout_date.strftime('%Y-%m-%d')}.csv"
       end
     end
   end
