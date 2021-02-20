@@ -22,9 +22,9 @@ module UnilevelSettlement
         @count_payouts = @invoices.count
 
         respond_to do |format|
-          format.html render
-          format.csv send_data generate_payout_run_csv, filename: csv_filename
-          format.zip send_zip @invoices.to_a.concat([@efairsorger]).map(&:invoice_pdf), filename: zip_filename
+          format.html { render }
+          format.csv { send_data generate_payout_run_csv, filename: csv_filename }
+          format.zip { send_zip @invoices.to_a.concat([@efairsorger]).map(&:invoice_pdf), filename: zip_filename }
         end
       end
 
