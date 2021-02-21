@@ -25,9 +25,9 @@ module UnilevelSettlement
           format.html { render }
           format.zip { send_zip @invoices.to_a.concat([@efairsorger]).map(&:invoice_pdf), filename: zip_filename }
           format.csv do
-            send_data generate_payout_run_csv.encode('UTF-8'),
-            filename: csv_filename,
-            type: 'text/csv; charset=UTF-8; header=present'
+            send_data generate_payout_run_csv,
+                      filename: csv_filename,
+                      type: 'text/csv; charset=utf-8; header=present'
           end
         end
       end
