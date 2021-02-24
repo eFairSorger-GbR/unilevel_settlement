@@ -18,6 +18,7 @@ module UnilevelSettlement
     accepts_nested_attributes_for :provisions, reject_if: :all_blank, allow_destroy: true
 
     validates :name, presence: true, uniqueness: true
+    validates :provisions, 'unilevel_settlement/level_order': true
     validate :provisions_or_template_must_exist, :only_one_reference_assigned
 
     def provision_for_level(level)

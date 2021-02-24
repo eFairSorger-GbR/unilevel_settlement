@@ -21,6 +21,8 @@
 
   .margin-top
     = f.label :provisions, 'Einzelne Provisionen'
+    = f.render_errors :provisions
+
     #provisions
       = f.fields_for :provisions do |provision|
         = render 'provision_fields', f: provision

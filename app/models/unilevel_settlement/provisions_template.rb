@@ -10,6 +10,7 @@ module UnilevelSettlement
     accepts_nested_attributes_for :provisions, reject_if: :all_blank, allow_destroy: true
 
     validates :name, presence: true
+    validates :provisions, 'unilevel_settlement/level_order': true
     validate :provisions_must_exist
 
     # overwriting rails defaults
