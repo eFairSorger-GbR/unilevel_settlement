@@ -1,0 +1,24 @@
+%table
+  %tr
+    %th Vertragsnummer
+    %th Berater
+    %th Produkt
+    %th Kunde
+    %th Hinweis
+    %th Netto
+  - records.each do |record|
+    - contract = record.contract
+    %tr
+      %td= contract.contract_number
+      %td= contract.user.full_name + " (#{contract.user.consultant_number})"
+      %td= contract.product
+      %td= contract.customer
+      %td= "#{'Storno' if contract.cancellation}#{'Abgelehnt' if contract.rejected}"
+      %td{ style: 'text-align: right !important' }= number_to_currency(record.amount, unit: '€')
+  %tr
+    %td
+    %td
+    %td
+    %td
+    %td
+    %td.f-bold{ style: 'text-align: right !important' }= number_to_currency(sub_total, unit: '€')

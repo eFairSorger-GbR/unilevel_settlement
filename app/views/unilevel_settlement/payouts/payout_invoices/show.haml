@@ -5,6 +5,11 @@
   .w50.t-right
     = link_to 'Abrechnung PDF', rails_blob_path(@invoice.invoice_pdf, disposition: "attachment"), class: 'btn-base btn-main'
 
+.f-bold
+  = @invoice.user.full_name
+  %br
+  %br
+
 .flex.f-bold
   .w30
     Gesamt Auszahlung:
@@ -43,76 +48,15 @@
 - if @level0_records.any?
   .margin-top
     %h2 Eigenverträge
-    %table
-      %tr
-        %th Vertragsnummer
-        %th Produkt
-        %th Kunde
-        %th Hinweis
-        %th Netto
-      - @level0_records.each do |record|
-        - contract = record.contract
-        %tr
-          %td= contract.contract_number
-          %td= contract.product
-          %td= contract.customer
-          %td= "#{'Storno' if contract.cancellation}#{'Abgelehnt' if contract.rejected}"
-          %td{ style: 'text-align: right !important' }= number_to_currency(record.amount, unit: '€')
-      %tr
-        %td
-        %td
-        %td
-        %td
-        %td.f-bold{ style: 'text-align: right !important' }= number_to_currency(@invoice.sub_total_level0, unit: '€')
+    = render 'records_table', records: @level0_records, sub_total: @invoice.sub_total_level0
 
-- if @level1_records.any? || @level2_users.any?
+- if @level1_records.any? || @level2_records.any?
   .margin-top
     %h2 Unilevel
     - if @level1_records.any?
       %h3 First Level
-      %table
-        %tr
-          %th Berater
-          %th Berternummer
-          %th Vertragsnummer
-          %th Produkt
-          %th Kunde
-          %th Hinweis
-          %th Netto
-        - @level1_records.each do |record|
-          - contract = record.contract
-          %tr
-            %td= contract.user.send(UnilevelSettlement.consultant_full_name)
-            %td= contract.user.send(UnilevelSettlement.consultant_number)
-            %td= contract.contract_number
-            %td= contract.product
-            %td= contract.customer
-            %td= "#{'Storno' if contract.cancellation}#{'Abgelehnt' if contract.rejected}"
-            %td{ style: 'text-align: right !important' }= number_to_currency(record.amount, unit: '€')
-        %tr
-          %td
-          %td
-          %td
-          %td
-          %td
-          %td
-          %td.f-bold{ style: 'text-align: right !important' }= number_to_currency(@invoice.sub_total_level1, unit: '€')
+      = render 'records_table', records: @level1_records, sub_total: @invoice.sub_total_level1
 
-    - if @level2_users.any?
+    - if @level2_records.any?
       %h3 Second Level
-      %table
-        %tr
-          %th Berater
-          %th Beraternummer
-          %th Netto
-        - @level2_users.each do |user|
-          %tr
-            %td= user.send(UnilevelSettlement.consultant_full_name)
-            %td= user.send(UnilevelSettlement.consultant_number)
-            %td{ style: 'text-align: right !important' }= number_to_currency(@level2_records.select { |record| record.closer == user }.reduce(0) { |s, r| s + r.amount }, unit: '€')
-        %tr
-          %td
-          %td
-          %td.f-bold{ style: 'text-align: right !important' }= number_to_currency(@invoice.sub_total_level2, unit: '€')
-
-
+      = render 'records_table', records: @level2_records, sub_total: @invoice.sub_total_level2
