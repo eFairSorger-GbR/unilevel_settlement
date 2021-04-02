@@ -20,7 +20,7 @@ module UnilevelSettlement
 
     def payout_records_source_excel_file_path
       if Rails.env.production?
-        Rails.application.routes.url_helpers.rails_blob_url(payout_records_source_excel, host: 'www.efairsorger.org')
+        Rails.application.routes.url_helpers.rails_blob_url(payout_records_source_excel, host: 'berater.efairsorger.org')
       else
         ActiveStorage::Blob.service.send(:path_for, payout_records_source_excel.key)
       end
