@@ -57,7 +57,9 @@ module UnilevelSettlement
     end
 
     def contracts_error_message
-      { error: 'Einige Verträge gibt es bereits. Die Abrechnung wurde abgebrochen und alle dazugehörigen Daten wurden gelöscht.' }
+      invalid_contracts = @contracts.select(&:invalid?).map { |c| "`Vertragsnummer: #{c.contract_number}`" }
+      { error: "Einige Verträge gibt es bereits. Die Abrechnung wurde abgebrochen und alle dazugehörigen Daten wurden
+               gelöscht. Es handelt sich um folgende Verträge:\n#{invalid_contracts.join("\n")}" }
     end
 
     # --- records creation & invoice initiation ---
