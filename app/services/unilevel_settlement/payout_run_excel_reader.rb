@@ -34,7 +34,8 @@ module UnilevelSettlement
           customer: row['Kunde'],
           product: provider_product_row(row)[1],
           cancellation: row['Provision'].negative?,
-          rejected: rejected?(row)
+          rejected: rejected?(row),
+          follow_up: follow_up?(row)
         }
       end
     end
@@ -59,6 +60,10 @@ module UnilevelSettlement
     def rejected?(row)
       reason = row['Buchungsgrund'].include?('Storno')
       reason && row['Provision'].zero?
+    end
+
+    def follow_up?(row)
+      row['Buchungsgrund'].include?('Folgeprovision')
     end
   end
 end

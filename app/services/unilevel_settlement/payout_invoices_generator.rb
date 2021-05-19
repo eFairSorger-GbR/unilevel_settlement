@@ -44,7 +44,8 @@ module UnilevelSettlement
         customer: data[:customer],
         product: data[:product],
         cancellation: data[:cancellation],
-        rejected: data[:rejected]
+        rejected: data[:rejected],
+        follow_up: data[:follow_up]
       )
     end
 
