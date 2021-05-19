@@ -28,6 +28,7 @@ module UnilevelSettlement
       reason = []
       reason << 'Storno' if contract.cancellation?
       reason << 'Folgeprovision' if contract.follow_up?
+      reason << 'Wiederanschaltung' if contract.restart?
 
       reason.any? ? " (#{reason.join('/')})" : nil
     end

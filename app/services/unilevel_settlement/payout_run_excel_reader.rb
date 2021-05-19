@@ -35,7 +35,8 @@ module UnilevelSettlement
           product: provider_product_row(row)[1],
           cancellation: row['Provision'].negative?,
           rejected: rejected?(row),
-          follow_up: follow_up?(row)
+          follow_up: follow_up?(row),
+          restart: restart?(row)
         }
       end
     end
@@ -64,6 +65,10 @@ module UnilevelSettlement
 
     def follow_up?(row)
       row['Buchungsgrund'].include?('Folgeprovision')
+    end
+
+    def restart?(row)
+      row['Buchungsgrund'].include?('Wiederanschaltung')
     end
   end
 end
