@@ -5,7 +5,7 @@
   .flex
     .w50
       - template.provisions.order(:level).each do |provision|
-        = "Level #{provision.level}: #{provision.provision} €"
+        = "Level #{provision.level}: #{provision.provision} €#{' (Folge)' if provision.follow_up?}"
         %br
     .w50.t-right
       = link_to 'Bearbeiten', edit_provisions_template_path(template), class: 'btn-base btn-sec', style: 'pointer-events: all'
