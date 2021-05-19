@@ -82,10 +82,23 @@ module UnilevelSettlement
     end
 
     def create_records_and_invoice(contract, user, level:)
+      return unless should_create_record?(contract, level)
+
       invoice = PayoutInvoice.find_or_create_by(user: user, run: @run)
       PayoutRecord.new(invoice: invoice, contract: contract, level: level)
                   .assign_attributes_from_contract
                   .save
+    end
+
+    def should_create_record?(contract, level)
+      levels = provision_levels(contract)
+      levels.include?(level)
+    end
+
+    def provision_levels(contract)
+      follow_up = contract.follow_up?
+      provisions = contract.provider.provisions_template&.provisions || contract.provider.provisions
+      provisions.where(follow_up: follow_up).map(&:level)
     end
 
     def should_cancel_records?
