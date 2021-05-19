@@ -57,7 +57,7 @@ module UnilevelSettlement
     # it only counts as rejected, if "Buchungsgrund" is a cancellation (storno) and provision is 0.
     # if "Buchungsgrund" is cancellation (storno) and provision is negative, it really is a normal cancellation (storno)
     def rejected?(row)
-      reason = row['Buchungsgrund'].include?('Storno aus Eigenumsatz')
+      reason = row['Buchungsgrund'].include?('Storno')
       reason && row['Provision'].zero?
     end
   end
