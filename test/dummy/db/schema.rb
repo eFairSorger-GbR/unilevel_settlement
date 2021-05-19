@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_19_175855) do
+ActiveRecord::Schema.define(version: 2021_05_19_192400) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 2021_05_19_175855) do
     t.boolean "rejected", default: false
     t.integer "user_id"
     t.boolean "follow_up", default: false
+    t.boolean "restart", default: false
     t.index ["unilevel_settlement_provider_id"], name: "index_unilevel_settlement_contract_on_provider_id"
   end
 
