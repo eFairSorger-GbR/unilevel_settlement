@@ -7,7 +7,5 @@ module UnilevelSettlement
 
     has_many :records, class_name: 'UnilevelSettlement::PayoutRecord', foreign_key: 'unilevel_settlement_contract_id',
                        inverse_of: :contract
-
-    validates :contract_number, uniqueness: { scope: %i[rejected cancellation] }
   end
 end
