@@ -23,5 +23,13 @@ module UnilevelSettlement
         super
       end
     end
+
+    def payout_record_hint(contract)
+      reason = []
+      reason << 'Storno' if contract.cancellation?
+      reason << 'Folgeprovision' if contract.follow_up?
+
+      reason.any? ? " (#{reason.join('/')})" : nil
+    end
   end
 end
