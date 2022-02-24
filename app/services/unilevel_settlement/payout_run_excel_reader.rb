@@ -34,7 +34,9 @@ module UnilevelSettlement
           customer: row['Kunde'],
           product: provider_product_row(row)[1],
           cancellation: row['Provision'].negative?,
-          rejected: rejected?(row)
+          rejected: rejected?(row),
+          follow_up: follow_up?(row),
+          restart: restart?(row)
         }
       end
     end
@@ -57,8 +59,16 @@ module UnilevelSettlement
     # it only counts as rejected, if "Buchungsgrund" is a cancellation (storno) and provision is 0.
     # if "Buchungsgrund" is cancellation (storno) and provision is negative, it really is a normal cancellation (storno)
     def rejected?(row)
-      reason = row['Buchungsgrund'].include?('Storno aus Eigenumsatz')
+      reason = row['Buchungsgrund'].include?('Storno')
       reason && row['Provision'].zero?
+    end
+
+    def follow_up?(row)
+      row['Buchungsgrund'].include?('Folgeprovision')
+    end
+
+    def restart?(row)
+      row['Buchungsgrund'].include?('Wiederanschaltung')
     end
   end
 end

@@ -44,7 +44,7 @@ module UnilevelSettlement
         :provisions,
         :inactive,
         :unilevel_settlement_provisions_template_id,
-        provisions_attributes: %i[id provision level _destroy]
+        provisions_attributes: %i[id provision level follow_up _destroy]
       )
     end
 

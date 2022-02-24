@@ -46,7 +46,7 @@ module UnilevelSettlement
     def template_params
       params.require(:provisions_template).permit(
         :name,
-        provisions_attributes: %i[id provision level _destroy]
+        provisions_attributes: %i[id provision level follow_up _destroy]
       )
     end
 

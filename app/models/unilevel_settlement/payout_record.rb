@@ -24,7 +24,7 @@ module UnilevelSettlement
     def calculate_amount
       return 0 if contract.rejected?
 
-      provision = contract.provider.provision_for_level(level)
+      provision = contract.provider.provision_for_level(level, contract.follow_up?)
       contract.cancellation? ? provision * -1 : provision
     end
 

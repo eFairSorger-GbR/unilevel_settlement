@@ -13,7 +13,7 @@
       %td= contract.user.full_name + " (#{contract.user.consultant_number})"
       %td= contract.product
       %td= contract.customer
-      %td= "#{'Storno' if contract.cancellation}#{'Abgelehnt' if contract.rejected}"
+      %td= payout_record_hint(contract)
       %td{ style: 'text-align: right !important' }= number_to_currency(record.amount, unit: '€')
   %tr
     %td

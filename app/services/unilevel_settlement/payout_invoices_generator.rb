@@ -44,7 +44,9 @@ module UnilevelSettlement
         customer: data[:customer],
         product: data[:product],
         cancellation: data[:cancellation],
-        rejected: data[:rejected]
+        rejected: data[:rejected],
+        follow_up: data[:follow_up],
+        restart: data[:restart]
       )
     end
 
@@ -57,7 +59,9 @@ module UnilevelSettlement
     end
 
     def contracts_error_message
-      { error: 'Einige Verträge gibt es bereits. Die Abrechnung wurde abgebrochen und alle dazugehörigen Daten wurden gelöscht.' }
+      invalid_contracts = @contracts.select(&:invalid?).map { |c| "`Vertragsnummer: #{c.contract_number}`" }
+      { error: "Einige Verträge gibt es bereits. Die Abrechnung wurde abgebrochen und alle dazugehörigen Daten wurden
+               gelöscht. Es handelt sich um folgende Verträge:\n#{invalid_contracts.join("\n")}" }
     end
 
     # --- records creation & invoice initiation ---
@@ -79,10 +83,23 @@ module UnilevelSettlement
     end
 
     def create_records_and_invoice(contract, user, level:)
+      return unless should_create_record?(contract, level)
+
       invoice = PayoutInvoice.find_or_create_by(user: user, run: @run)
       PayoutRecord.new(invoice: invoice, contract: contract, level: level)
                   .assign_attributes_from_contract
                   .save
+    end
+
+    def should_create_record?(contract, level)
+      levels = provision_levels(contract)
+      levels.include?(level)
+    end
+
+    def provision_levels(contract)
+      follow_up = contract.follow_up?
+      provisions = contract.provider.provisions_template&.provisions || contract.provider.provisions
+      provisions.where(follow_up: follow_up).map(&:level)
     end
 
     def should_cancel_records?

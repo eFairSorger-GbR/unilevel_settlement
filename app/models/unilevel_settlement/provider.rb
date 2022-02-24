@@ -21,9 +21,9 @@ module UnilevelSettlement
     validates :provisions, 'unilevel_settlement/level_order': true
     validate :provisions_or_template_must_exist, :only_one_reference_assigned
 
-    def provision_for_level(level)
+    def provision_for_level(level, follow_up)
       provisions_source = provisions.any? ? self : provisions_template
-      provisions_source.provisions.find_by_level(level).provision
+      provisions_source.provisions.where(follow_up: follow_up).find_by_level(level).provision
     end
 
     private
