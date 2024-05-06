@@ -42,7 +42,7 @@ module UnilevelSettlement
           @payout_run.update(state: 'awaiting_providers')
           redirect_to flow_payouts_payout_run_path(@payout_run)
         else
-          render :new
+          render :start
         end
       end
 
