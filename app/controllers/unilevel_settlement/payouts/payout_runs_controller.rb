@@ -23,7 +23,7 @@ module UnilevelSettlement
 
         respond_to do |format|
           format.html { render }
-          format.zip { send_zip @invoices.to_a.concat([@efairsorger]).map(&:invoice_pdf), filename: zip_filename }
+          format.zip { send_zip zip_files, filename: zip_filename }
           format.csv do
             send_data generate_payout_run_csv,
                       filename: csv_filename,
@@ -98,6 +98,16 @@ module UnilevelSettlement
 
       def csv_filename
         "eFS_SEPA_Abrechnung_#{@payout_run.payout_date.strftime('%Y-%m-%d')}.csv"
+      end
+
+      def zip_files
+        zip_invoices = if @efairsorger
+                         @invoices.to_a.concat([@efairsorger])
+                       else
+                         @invoices
+                       end
+
+        zip_invoices.map(&:invoice_pdf)
       end
     end
   end
